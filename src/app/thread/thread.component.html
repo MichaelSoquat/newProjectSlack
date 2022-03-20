@@ -1,0 +1,15 @@
+<div class="thread-container">
+
+    <button (click)="file.click()" mat-icon-button>
+        <input type="file" accept="image/*" #file style="position: fixed; top: -100em;">
+        <mat-icon>photo_camera</mat-icon>
+    </button>
+
+    <form class="hstack gap-2" style="width: 100%;">
+        <textarea class="form-control me-auto" autofocus>
+    </textarea>
+        <button type="submit" mat-icon-button>
+            <mat-icon>send</mat-icon>
+        </button>
+    </form>
+</div>

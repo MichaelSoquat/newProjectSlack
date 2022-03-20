@@ -1,0 +1,8 @@
+.showTools {
+    .tools {
+        visibility: hidden;
+    }
+    &:hover .tools {
+        visibility: visible;
+    }
+}

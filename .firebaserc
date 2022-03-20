@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "projectslack-db44b": {
+      "hosting": {
+        "projectslack": [
+          "projectslack-db44b"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "projectslack-db44b"
+  }
+}

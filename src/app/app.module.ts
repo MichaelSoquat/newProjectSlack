@@ -13,12 +13,20 @@ import { MainInterfaceComponent } from './main-interface/main-interface.componen
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ThreadComponent } from './thread/thread.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { FirebaseService } from './services/firebase.service';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTabsModule} from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -28,12 +36,14 @@ import { MatButtonModule } from '@angular/material/button';
     MainInterfaceComponent,
     ToolbarComponent,
     ThreadComponent,
-    SidebarComponent
+    SidebarComponent,
+    AuthenticationComponent
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
@@ -46,9 +56,14 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
-
+    AngularFireModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    FormsModule,
   ],
-  providers: [],
+  providers: [FirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

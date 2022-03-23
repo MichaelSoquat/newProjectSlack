@@ -6,6 +6,8 @@
     height: 40px;
     display: flex;
     margin: 1rem;
+    display: flex;
+    justify-content: center;
 }
 
 mat-toolbar {
@@ -15,5 +17,8 @@ mat-toolbar {
         position: absolute;
         right: 30px;
         top: 11px;
+        width: 300px;
     }
 }
+
+

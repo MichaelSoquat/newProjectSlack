@@ -30,6 +30,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { AddChannelDialogComponent } from './add-channel-dialog/add-channel-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ThreadComponent } from './thread/thread.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SidebarComponent,
     AuthenticationComponent,
     AddChannelDialogComponent,
+    ThreadComponent,
 
 
 

@@ -1,0 +1,41 @@
+<!-- THREAD - NAME -->
+
+<div id="workspace">
+    <mat-toolbar>
+        <span>Thread ...</span>
+    </mat-toolbar>
+
+    <!-- DISPLAY THREAD - CONTENT -->
+
+    <div class="main">
+        <div style="overflow-y: scroll; height: 100%;">
+            <div *ngFor="let content of test">
+                <mat-card class="m-3 positioning" style="background-color: #3f51b5">
+                    <div style="margin-right: 150px;">
+                        <mat-card-title>User</mat-card-title>
+                        <mat-card-subtitle>Time</mat-card-subtitle>
+                        <mat-card-content>Content</mat-card-content>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+        <!-- SEND MESSAGE IN THREAD BAR -->
+
+        <div class="max-width" style="display: flex; margin: 1rem;">
+            <button (click)="file.click()" mat-icon-button>
+                <input type="file" accept="image/*" #file style="position: fixed; top: -100em;">
+                <mat-icon>photo_camera</mat-icon>
+            </button>
+            <form>
+                <textarea class="form-control me-auto" cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
+                </textarea>
+            </form>
+            <button type="submit" mat-icon-button>
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+    </div>
+
+
+</div>

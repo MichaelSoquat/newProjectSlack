@@ -8,10 +8,11 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MainInterfaceComponent } from './main-interface/main-interface.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ThreadComponent } from './thread/thread.component';
+import { MainContentComponent } from './main-content/main-content.component';
+import { MainInterfaceComponent } from './main-interface/main-interface.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,15 +31,19 @@ import { FormsModule } from '@angular/forms';
 import { AddChannelDialogComponent } from './add-channel-dialog/add-channel-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     MainInterfaceComponent,
     ToolbarComponent,
-    ThreadComponent,
+    MainContentComponent,
     SidebarComponent,
     AuthenticationComponent,
     AddChannelDialogComponent,
+
+
+
   ],
   imports: [
     BrowserModule,
@@ -67,4 +72,4 @@ import { MatDialogModule } from '@angular/material/dialog';
   providers: [FirebaseService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

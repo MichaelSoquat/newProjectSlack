@@ -1,0 +1,19 @@
+.main-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 40px;
+    display: flex;
+    margin: 1rem;
+}
+
+mat-toolbar {
+    position: relative;
+
+    button {
+        position: absolute;
+        right: 30px;
+        top: 11px;
+    }
+}

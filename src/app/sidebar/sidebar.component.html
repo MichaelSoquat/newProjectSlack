@@ -2,6 +2,8 @@
 
     <div class="card-body">
         <div class="card-title hstack gap-2 showTools">
+            <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="!openChannelDropdown">arrow_right</mat-icon>
+            <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="openChannelDropdown">arrow_drop_down</mat-icon>
             <h4 class="mt-auto mb-auto">
                 Channels
             </h4>
@@ -11,19 +13,30 @@
                 </button>
             </div>
         </div>
+
+        <div [ngClass]="openChannelDropdown ? '': 'd-none'">
+            <div *ngFor="let channel of channels" class="p-l-24 clickable m-b-4" (click)="openChannel(channel.id)">
+                <div *ngIf="!channel.is_private"># {{channel.name}}</div>
+                <div *ngIf="channel.is_private">§ {{channel.name}}</div>
+            </div>
+        </div>
     </div>
 
     <mat-divider></mat-divider>
 
     <div class="card-body">
         <div class="card-title hstack gap-2 showTools">
+            <mat-icon class="clickable" (click)="toggleDmDropdown()" *ngIf="!openDmDropdown">arrow_right</mat-icon>
+            <mat-icon class="clickable" (click)="toggleDmDropdown()" *ngIf="openDmDropdown">arrow_drop_down</mat-icon>
             <h4 class="mt-auto mb-auto">
-                Direct messages
+                Direktnachrichten
             </h4>
-            <div class="tools ms-auto">
-                <button mat-icon-button (click)="openDialogMessage()">
-                    <mat-icon>add</mat-icon>
-                </button>
+
+        </div>
+        <div [ngClass]="openDmDropdown ? '': 'd-none'">
+            <div *ngFor="let user of users" class="p-l-24 clickable m-b-4" (click)="openDm(user.id)">
+                <div><img class="profil-img" [src]="user.image" alt="">{{user.first_name + " " + user.last_name}}</div>
+
             </div>
         </div>
     </div>

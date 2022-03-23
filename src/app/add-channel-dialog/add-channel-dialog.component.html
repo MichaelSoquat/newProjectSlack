@@ -1,0 +1,22 @@
+<h1 mat-dialog-title *ngIf="!isPrivate">Channels erstellen</h1>
+<h1 mat-dialog-title *ngIf="isPrivate">Geschlossene Channels erstellen</h1>
+<div mat-dialog-content>
+    <p>
+        Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein – #marketing zum Beispiel.</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Channel Name</mat-label>
+        <input matInput [(ngModel)]="channel.name">
+    </mat-form-field>
+    <div class="container">
+        <p>
+            <span class="fat">Auf „Geschlossen“ setzen</span><br>
+            <span *ngIf="!isPrivate">Wenn ein Channel in einen geschlossenen Channel umgewandelt wird, sind Anzeige und Beitritt nur auf Einladung möglich.</span>
+            <span *ngIf="isPrivate">Das kann nicht rückgängig gemacht werden. Geschlossene Channels können später nicht wieder zu offenen Channels geändert werden.</span>
+        </p>
+        <mat-checkbox [checked]="isPrivate" (change)="onChange($event.checked)"></mat-checkbox>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Abbrechen</button>
+    <button mat-button [disabled]="channel.name.length == 0" [mat-dialog-close]="channel">Erstellen</button>
+</div>

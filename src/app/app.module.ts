@@ -23,12 +23,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { FirebaseService } from './services/firebase.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import {MatInputModule} from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
-
-
+import { AddChannelDialogComponent } from './add-channel-dialog/add-channel-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -37,8 +37,8 @@ import { FormsModule } from '@angular/forms';
     ToolbarComponent,
     ThreadComponent,
     SidebarComponent,
-    AuthenticationComponent
-
+    AuthenticationComponent,
+    AddChannelDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,8 +62,9 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatTabsModule,
     FormsModule,
+    MatDialogModule,
   ],
   providers: [FirebaseService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

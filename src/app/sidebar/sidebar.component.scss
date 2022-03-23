@@ -6,3 +6,25 @@
         visibility: visible;
     }
 }
+
+.clickable:hover {
+    cursor: pointer;
+}
+
+.d-none {
+    display: none;
+}
+
+.p-l-24 {
+    padding-left: 24px;
+}
+
+.m-b-4 {
+    margin-bottom: 4px;
+}
+
+.profil-img {
+    height: 24px;
+    border-radius: 100%;
+    margin-right: 8px;
+}

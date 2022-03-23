@@ -78,12 +78,15 @@ export class SidebarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       //Id nötig????
-      this.saveChannel({
-        id: 1,
-        name: result.name,
-        is_private: result.isPrivate,
-        messages: [],
-      });
+
+      if (result) {
+        this.saveChannel({
+          id: 1,
+          name: result.name,
+          is_private: result.isPrivate,
+          messages: [],
+        });
+      }
     });
   }
 

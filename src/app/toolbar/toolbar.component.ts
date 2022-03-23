@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-  
+  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+  openCloseSidebar() {
+    this.buttonClicked.emit('clicked');
+
   }
 
 }

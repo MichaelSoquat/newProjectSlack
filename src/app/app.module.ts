@@ -13,7 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { MainInterfaceComponent } from './main-interface/main-interface.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -70,6 +70,7 @@ import { ThreadComponent } from './thread/thread.component';
     MatTabsModule,
     FormsModule,
     MatDialogModule,
+
   ],
   providers: [FirebaseService],
   bootstrap: [AppComponent],

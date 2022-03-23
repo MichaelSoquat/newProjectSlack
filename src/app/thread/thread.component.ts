@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
 
 
 @Component({
@@ -7,17 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
-
+  @Output() sideNavOpened = new EventEmitter;
   test = ['sidaflöajasdf',
     'asdöfiöasdifj', 'disaföljsdiaölf', 'disaföljsdiaölf',
     'djsaiföjasdi', 'disaföljsdiaölf', 'disaföljsdiaölf',
     'disaföljsdiaölf']
 
-  constructor() { }
+  constructor(private firestore: Firestore) { }
 
   ngOnInit(): void {
   }
-
+  onSideNavOpened() {
+    this.sideNavOpened.emit();
+  }
 
 
 }

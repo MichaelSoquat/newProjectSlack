@@ -1,10 +1,10 @@
 <div id="mainInterface">
     <!-- TOOLBAR -->
-    <app-toolbar class="toolbar"></app-toolbar>
+    <app-toolbar (buttonClicked)="isClicked($event)"></app-toolbar>
     <!-- SIDENAV -->
     <mat-drawer-container class="sidenav-container">
         <!-- SIDENAV-CONTENT -->
-        <mat-drawer mode="side" opened>
+        <mat-drawer mode="side" opened *ngIf="open">
             <app-sidebar></app-sidebar>
         </mat-drawer>
         <!-- THREAD-CONTENT -->

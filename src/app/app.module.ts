@@ -31,6 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { AddChannelDialogComponent } from './add-channel-dialog/add-channel-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ThreadComponent } from './thread/thread.component';
+import { MainChatComponent } from './main-chat/main-chat.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { ThreadComponent } from './thread/thread.component';
     AuthenticationComponent,
     AddChannelDialogComponent,
     ThreadComponent,
+    MainChatComponent,
 
 
 

@@ -13,13 +13,19 @@ export class ThreadComponent implements OnInit {
     'asdöfiöasdifj', 'disaföljsdiaölf', 'disaföljsdiaölf',
     'djsaiföjasdi', 'disaföljsdiaölf', 'disaföljsdiaölf',
     'disaföljsdiaölf']
-
+  message: string[] = [];
+  defaultValue: string = '';
   constructor(private firestore: Firestore) { }
 
   ngOnInit(): void {
   }
   onSideNavOpened() {
     this.sideNavOpened.emit();
+  }
+
+  showMessage(message: any) {
+    this.message.push(message);
+    this.defaultValue = '';
   }
 
 

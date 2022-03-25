@@ -7,11 +7,12 @@
         <mat-drawer mode="side" opened *ngIf="open">
             <app-sidebar></app-sidebar>
         </mat-drawer>
-        <!-- THREAD-CONTENT -->
+        <!-- MAIN-CONTENT -->
         <mat-drawer-content>
             <app-main-chat></app-main-chat>
             <app-main-content></app-main-content>
         </mat-drawer-content>
+        <!-- THREAD-CONTENT -->
         <mat-drawer class="thread-right" mode="side" opened>
             <app-thread></app-thread>
         </mat-drawer>

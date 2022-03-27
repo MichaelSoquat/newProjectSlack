@@ -14,6 +14,18 @@
         object-fit: cover;
         margin-right: 8px;
     }
+
+    &:last-child{
+        margin-bottom: 80px;
+    }
+}
+
+.chat-bottom-section{
+    color: rgb(26, 26, 204);
+
+    &:hover{
+        cursor: pointer;
+    }
 }
 
 .chat-header-container{

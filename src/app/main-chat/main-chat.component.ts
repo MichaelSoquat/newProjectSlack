@@ -10,6 +10,10 @@ export class MainChatComponent implements OnInit {
   currentTime = new Date();
   constructor() { }
 
+  openThread(){
+    console.log('thread opened');
+  }
+
   ngOnInit(): void {
   }
 

@@ -5,12 +5,12 @@
     <mat-drawer-container class="sidenav-container">
         <!-- SIDENAV-CONTENT -->
         <mat-drawer mode="side" opened *ngIf="open">
-            <app-sidebar></app-sidebar>
+            <app-sidebar (buttonClicked)="renderContent($event)"></app-sidebar>
         </mat-drawer>
         <!-- MAIN-CONTENT -->
         <mat-drawer-content>
-            <app-main-chat></app-main-chat>
-            <app-main-content></app-main-content>
+            <app-main-chat *ngFor="let message of messages" [message]="message"></app-main-chat>
+            <app-main-content (buttonClicked) ="pushMessage($event)"></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
         <mat-drawer class="thread-right" mode="side" opened>

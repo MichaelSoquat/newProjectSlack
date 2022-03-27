@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-chat',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-chat.component.scss']
 })
 export class MainChatComponent implements OnInit {
-
+  @Input() message!: string;
   currentTime = new Date();
   constructor() { }
 

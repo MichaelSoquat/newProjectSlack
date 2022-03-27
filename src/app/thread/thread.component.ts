@@ -8,7 +8,7 @@ import { Firestore } from '@angular/fire/firestore';
   styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
-  @Output() sideNavOpened = new EventEmitter;
+  
   test = ['sidaflöajasdf',
     'asdöfiöasdifj', 'disaföljsdiaölf', 'disaföljsdiaölf',
     'djsaiföjasdi', 'disaföljsdiaölf', 'disaföljsdiaölf',
@@ -19,9 +19,7 @@ export class ThreadComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onSideNavOpened() {
-    this.sideNavOpened.emit();
-  }
+  
 
   showMessage(message: any) {
     this.message.push(message);

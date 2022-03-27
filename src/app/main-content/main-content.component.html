@@ -5,11 +5,13 @@
         <mat-icon>photo_camera</mat-icon>
     </button>
 
-    <form class="hstack gap-2" style="width: 70%;">
-        <textarea class="form-control me-auto" autofocus>
-    </textarea>
-        <button type="submit" mat-icon-button>
-            <mat-icon>send</mat-icon>
-        </button>
-    </form>
+    <form class="hstack gap-2" style="width: 50%;">
+        <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto"
+                    cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
+                </textarea>
+            
+            <button (click)="pushMessage(textarea.value)" type="submit" mat-icon-button>
+                <mat-icon>send</mat-icon>
+            </button>
+        </form>
 </div>

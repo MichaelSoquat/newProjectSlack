@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddChannelDialogComponent } from '../add-channel-dialog/add-channel-dialog.component';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -54,7 +55,7 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
-  constructor(public dialog: MatDialog, private firestore: AngularFirestore) {}
+  constructor(public dialog: MatDialog, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     this.firestore
@@ -96,9 +97,10 @@ export class SidebarComponent implements OnInit {
   toggleDmDropdown() {
     this.openDmDropdown = !this.openDmDropdown;
   }
+  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   openChannel(id: string) {
+    this.buttonClicked.emit(id)   //give Id to Interface
     // Abrufen der Messages --> ID des Channels wird übergeben
-    console.log(id);
   }
   openDm(id: string) {
     // Abrufen der Messages --> ID des Empfängers wird übergeben

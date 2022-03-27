@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 @Component({
@@ -12,6 +13,8 @@ export class MainInterfaceComponent implements OnInit {
   messages = [];
   ngOnInit(): void {
   }
+
+  constructor(private firestore: AngularFirestore) { }
   isClicked(value: any) {
     this.value = value;
     if (this.open == true) {
@@ -21,11 +24,23 @@ export class MainInterfaceComponent implements OnInit {
     }
   }
 
-  renderContent(id:any) {
+  renderContent(id: any) {
     console.log(id)
+    this.firestore.
+      collection('channel')
+      .valueChanges()
+      .subscribe((channel: any) => {
+        channel.forEach((el: any) => {
+          if (el.id == id) {
+            this.messages = el.messages;
+          }
+        })
+      });
   }
 
-  pushMessage(id:any) {
+  pushMessage(id: any) {
     console.log(id)
+
+    //push message into array
   }
 }

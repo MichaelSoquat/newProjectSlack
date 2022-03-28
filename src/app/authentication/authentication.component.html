@@ -1,4 +1,4 @@
-<div class="login-page">
+<div *ngIf="!isSignedIn" class="login-page">
     <mat-card class="mat-elevation-z12">
         <mat-card-title style="text-align:center;">SignIn/SignUp</mat-card-title>
         <mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
@@ -78,3 +78,5 @@
         </mat-tab-group>
     </mat-card>
 </div>
+<app-toolbar *ngIf="isSignedIn" (isLogout)="handleLogout()"></app-toolbar>
+

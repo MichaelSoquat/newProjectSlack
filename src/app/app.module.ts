@@ -45,9 +45,6 @@ import { MainChatComponent } from './main-chat/main-chat.component';
     AddChannelDialogComponent,
     ThreadComponent,
     MainChatComponent,
-
-
-
   ],
   imports: [
     BrowserModule,

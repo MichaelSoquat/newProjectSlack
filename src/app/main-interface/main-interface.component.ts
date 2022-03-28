@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FirebaseService } from '../services/firebase.service';
 
 
 @Component({
@@ -8,13 +9,17 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./main-interface.component.scss']
 })
 export class MainInterfaceComponent implements OnInit {
+
+
   open = true;
   value: string = '';
   messages = [];
   ngOnInit(): void {
   }
 
-  constructor(private firestore: AngularFirestore) { }
+
+
+  constructor(private firestore: AngularFirestore, public firebaseService: FirebaseService) { }
   isClicked(value: any) {
     this.value = value;
     if (this.open == true) {
@@ -23,6 +28,11 @@ export class MainInterfaceComponent implements OnInit {
       this.open = true;
     }
   }
+
+  // logout(){
+  //   this.firebaseService.logout();
+  //   this.isLogout.emit()
+  // }
 
   renderContent(id: any) {
     console.log(id)

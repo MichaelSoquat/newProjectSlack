@@ -28,6 +28,10 @@ export class AuthenticationComponent implements OnInit {
     if(this.firebaseService.isloggedIn)
     this.isSignedIn = true;
   }
+
+  handleLogout(){
+    this.isSignedIn = false;
+  }
 }
 
 

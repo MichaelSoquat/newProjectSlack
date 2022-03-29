@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FirebaseService } from '../services/firebase.service';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 
 @Component({
@@ -48,8 +50,8 @@ export class MainInterfaceComponent implements OnInit {
       });
   }
 
-  pushMessage(id: any) {
-    console.log(id)
+  pushMessage(value: string) {
+    console.log(value)
 
     //push message into array
   }

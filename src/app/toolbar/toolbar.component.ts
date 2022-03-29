@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { BackendService } from '../backend.service';
 import { FirebaseService } from '../services/firebase.service';
 
 
@@ -12,7 +13,7 @@ export class ToolbarComponent implements OnInit {
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   @Output() isLogout = new EventEmitter<void>();
 
-  constructor(public firebaseService: FirebaseService) { }
+  constructor(public backend: BackendService, public firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
   }
@@ -21,7 +22,7 @@ export class ToolbarComponent implements OnInit {
 
   }
 
-  public logout(){
+  public logout() {
     this.firebaseService.logout();
     this.isLogout.emit();
   }

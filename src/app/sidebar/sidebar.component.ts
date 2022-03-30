@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddChannelDialogComponent } from '../add-channel-dialog/add-channel-dialog.component';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
+import { BackendService } from '../backend.service';
 
 
 @Component({
@@ -12,16 +13,16 @@ import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
 export class SidebarComponent implements OnInit {
   openChannelDropdown = true;
   openDmDropdown = true;
+
+
+
   channels = [
     {
-      id: '1',
+      id: '',
       is_private: false,
-      name: 'Coffee',
+      name: '',
       messages: [],
     },
-    { id: '2', is_private: true, name: '2. Coffee', messages: [] },
-    { id: '3', is_private: false, name: '3. Coffee', messages: [] },
-    { id: '4', is_private: false, name: '4. Coffee', messages: [] },
   ];
 
   users = [
@@ -31,31 +32,9 @@ export class SidebarComponent implements OnInit {
       last_name: 'Mustermann',
       email: 'xy@gmail.com',
       image: 'https://i.pravatar.cc/24?img=1',
-    },
-    {
-      id: '2',
-      first_name: 'Erika',
-      last_name: 'Mustermann',
-      email: 'xy@gmail.com',
-      image: 'https://i.pravatar.cc/24?img=2',
-    },
-    {
-      id: '3',
-      first_name: 'Jana',
-      last_name: 'Mustermann',
-      email: 'xy@gmail.com',
-      image: 'https://i.pravatar.cc/24?img=3',
-    },
-    {
-      id: '4',
-      first_name: 'Niklas',
-      last_name: 'Mustermann',
-      email: 'xy@gmail.com',
-      image: 'https://i.pravatar.cc/24?img=4',
-    },
+    }
   ];
-
-  constructor(public dialog: MatDialog, private firestore: AngularFirestore) { }
+  constructor(public dialog: MatDialog, public firestore: AngularFirestore, public backend: BackendService) { }
 
   ngOnInit(): void {
     this.firestore
@@ -64,7 +43,8 @@ export class SidebarComponent implements OnInit {
       .subscribe((channels: any) => {
         this.channels = channels;
       });
-
+    // this.backend.getFromFirestore('channel')
+    // this.backend.getFromFirestore('user')
     this.firestore
       .collection('user')
       .valueChanges()
@@ -107,13 +87,22 @@ export class SidebarComponent implements OnInit {
     console.log(id);
   }
   saveChannel(channel: Object) {
-    this.firestore
-      .collection('channel')
-      .add(channel)
-      .then((fromDocRef) => {
-        this.firestore.collection('channel').doc(fromDocRef.id).update({
-          id: fromDocRef.id,
-        });
-      });
+    // this.firestore
+    //   .collection('channel')
+    //   .add(channel)
+    //   .then((fromDocRef) => {
+    //     this.firestore.collection('channel').doc(fromDocRef.id).update({
+    //       id: fromDocRef.id,
+    //     });
+    //   });
+    this.backend.createInFirestore('channel', channel)
   }
 }
+function channels(arg0: string, channels: any) {
+  throw new Error('Function not implemented.');
+}
+
+function users(arg0: string, users: any) {
+  throw new Error('Function not implemented.');
+}
+

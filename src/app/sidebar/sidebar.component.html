@@ -2,8 +2,10 @@
 
     <div class="card-body">
         <div class="card-title hstack gap-2 showTools">
-            <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="!openChannelDropdown">arrow_right</mat-icon>
-            <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="openChannelDropdown">arrow_drop_down</mat-icon>
+            <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="!openChannelDropdown">arrow_right
+            </mat-icon>
+            <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="openChannelDropdown">arrow_drop_down
+            </mat-icon>
             <h4 class="mt-auto mb-auto">
                 Channels
             </h4>
@@ -15,7 +17,7 @@
         </div>
 
         <div [ngClass]="openChannelDropdown ? '': 'd-none'">
-            <div *ngFor="let channel of channels" class="p-l-24 clickable m-b-4" (click)="openChannel(channel.id)">
+            <div *ngFor="let channel of backend.channels" class="p-l-24 clickable m-b-4" (click)="openChannel(channel.id)">
                 <div *ngIf="!channel.is_private"># {{channel.name}}</div>
                 <div *ngIf="channel.is_private">§ {{channel.name}}</div>
             </div>

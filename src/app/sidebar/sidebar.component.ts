@@ -4,7 +4,6 @@ import { AddChannelDialogComponent } from '../add-channel-dialog/add-channel-dia
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
 import { BackendService } from '../backend.service';
 
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -14,43 +13,29 @@ export class SidebarComponent implements OnInit {
   openChannelDropdown = true;
   openDmDropdown = true;
 
-
-
-  channels = [
-    {
-      id: '',
-      is_private: false,
-      name: '',
-      messages: [],
-    },
-  ];
-
-  users = [
-    {
-      id: '1',
-      first_name: 'Max',
-      last_name: 'Mustermann',
-      email: 'xy@gmail.com',
-      image: 'https://i.pravatar.cc/24?img=1',
-    }
-  ];
-  constructor(public dialog: MatDialog, public firestore: AngularFirestore, public backend: BackendService) { }
+  constructor(
+    public dialog: MatDialog,
+    public firestore: AngularFirestore,
+    public backend: BackendService
+  ) {}
 
   ngOnInit(): void {
-    this.firestore
-      .collection('channel')
-      .valueChanges()
-      .subscribe((channels: any) => {
-        this.channels = channels;
-      });
-    // this.backend.getFromFirestore('channel')
-    // this.backend.getFromFirestore('user')
-    this.firestore
-      .collection('user')
-      .valueChanges()
-      .subscribe((users: any) => {
-        this.users = users;
-      });
+    // this.firestore
+    //   .collection('channel')
+    //   .valueChanges()
+    //   .subscribe((channels: any) => {
+    //     this.channels = channels;
+    //   });
+
+    this.backend.getFromFirestore('channel', 'channels');
+
+    this.backend.getFromFirestore('user', 'users');
+    // this.firestore
+    //   .collection('user')
+    //   .valueChanges()
+    //   .subscribe((users: any) => {
+    //     this.users = users;
+    //   });
   }
   openDialogChannel() {
     const dialogRef = this.dialog.open(AddChannelDialogComponent, {
@@ -79,7 +64,7 @@ export class SidebarComponent implements OnInit {
   }
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   openChannel(id: string) {
-    this.buttonClicked.emit(id)   //give Id to Interface
+    this.buttonClicked.emit(id); //give Id to Interface
     // Abrufen der Messages --> ID des Channels wird übergeben
   }
   openDm(id: string) {
@@ -95,7 +80,7 @@ export class SidebarComponent implements OnInit {
     //       id: fromDocRef.id,
     //     });
     //   });
-    this.backend.createInFirestore('channel', channel)
+    this.backend.createInFirestore('channel', channel);
   }
 }
 function channels(arg0: string, channels: any) {
@@ -105,4 +90,3 @@ function channels(arg0: string, channels: any) {
 function users(arg0: string, users: any) {
   throw new Error('Function not implemented.');
 }
-

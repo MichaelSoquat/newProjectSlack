@@ -17,7 +17,7 @@
         </div>
 
         <div [ngClass]="openChannelDropdown ? '': 'd-none'">
-            <div *ngFor="let channel of backend.channels" class="p-l-24 clickable m-b-4" (click)="openChannel(channel.id)">
+            <div *ngFor="let channel of backend.data.channels" class="p-l-24 clickable m-b-4" (click)="openChannel(channel.id)">
                 <div *ngIf="!channel.is_private"># {{channel.name}}</div>
                 <div *ngIf="channel.is_private">§ {{channel.name}}</div>
             </div>
@@ -36,7 +36,7 @@
 
         </div>
         <div [ngClass]="openDmDropdown ? '': 'd-none'">
-            <div *ngFor="let user of users" class="p-l-24 clickable m-b-4" (click)="openDm(user.id)">
+            <div *ngFor="let user of backend.data.users" class="p-l-24 clickable m-b-4" (click)="openDm(user.id)">
                 <div><img class="profil-img" [src]="user.image" alt="">{{user.first_name + " " + user.last_name}}</div>
 
             </div>

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackendService {
-  [x: string]: any;
   loggedInUser: string = '';
 
   data = {
@@ -28,7 +29,7 @@ export class BackendService {
     ],
   };
 
-  constructor(public firestore: AngularFirestore) {}
+  constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
   public setTheLoggedInUser(user: string) {
     this.loggedInUser = user;
@@ -65,4 +66,28 @@ export class BackendService {
         this.data[dataToChange as keyof typeof this.data] = channels;
       });
   }
+
+  file: any = {};
+
+  chooseFile(event: any) {
+    console.log(this.file)
+    this.file = event.target.files[0];
+    console.log(this.file.name)
+    this.addData();
+
+  }
+  addData() {
+    const storageRef = ref(this.storage, this.file.name);
+    const uploadTask = uploadBytesResumable(storageRef, this.file)
+    uploadTask.on('state_changed', (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+    }, () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+      });
+    }
+    )
+  }
+
 }

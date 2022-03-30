@@ -1,17 +1,18 @@
 <div class="main-container">
 
     <button (click)="file.click()" mat-icon-button>
-        <input type="file" accept="image/*" #file style="position: fixed; top: -100em;">
+        <input (change)="backend.chooseFile($event)" type="file" accept="image/*" #file style="position: fixed; top: -100em;">
         <mat-icon>photo_camera</mat-icon>
     </button>
 
     <form class="hstack gap-2" style="width: 50%;">
         <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto"
-                    cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
+            cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
                 </textarea>
-            
-            <button (click)="pushMessage(textarea.value)" type="submit" mat-icon-button>
-                <mat-icon>send</mat-icon>
-            </button>
-        </form>
+
+        <button (click)="pushMessage(textarea.value)"
+             type="submit" mat-icon-button>
+            <mat-icon>send</mat-icon>
+        </button>
+    </form>
 </div>

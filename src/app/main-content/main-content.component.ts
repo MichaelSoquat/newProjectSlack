@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-main-content',
@@ -8,7 +9,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class MainContentComponent implements OnInit {
   defaultValue: string = '';
   message: any;
-  constructor() { }
+  constructor(public backend: BackendService) { }
 
   ngOnInit(): void {
   }
@@ -17,5 +18,9 @@ export class MainContentComponent implements OnInit {
   pushMessage(message: any) {
     this.buttonClicked.emit(message)
     this.defaultValue = '';
+  }
+
+  click(value:any) {
+    console.log(value)
   }
 }

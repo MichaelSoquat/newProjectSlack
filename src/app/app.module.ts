@@ -32,6 +32,9 @@ import { AddChannelDialogComponent } from './add-channel-dialog/add-channel-dial
 import { MatDialogModule } from '@angular/material/dialog';
 import { ThreadComponent } from './thread/thread.component';
 import { MainChatComponent } from './main-chat/main-chat.component';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+
+
 
 
 @NgModule({
@@ -54,6 +57,8 @@ import { MainChatComponent } from './main-chat/main-chat.component';
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -69,6 +74,7 @@ import { MainChatComponent } from './main-chat/main-chat.component';
     MatTabsModule,
     FormsModule,
     MatDialogModule,
+
 
   ],
   providers: [FirebaseService],

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../backend.service';
 
 @Component({
@@ -8,19 +8,22 @@ import { BackendService } from '../backend.service';
 })
 export class MainContentComponent implements OnInit {
   defaultValue: string = '';
-  message: any;
   constructor(public backend: BackendService) { }
 
   ngOnInit(): void {
   }
 
-  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
-  pushMessage(message: any) {
-    this.buttonClicked.emit(message)
+
+  pushMessage(textarea: any) {
+
     this.defaultValue = '';
+    this.backend.currentChannel.messages.push(textarea.value)
+
+    this.backend.saveCurrentChannel();
+
   }
 
-  click(value:any) {
+  click(value: any) {
     console.log(value)
   }
 }

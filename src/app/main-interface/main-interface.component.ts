@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BackendService } from '../backend.service';
 import { FirebaseService } from '../services/firebase.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -21,7 +22,7 @@ export class MainInterfaceComponent implements OnInit {
 
 
 
-  constructor(private firestore: AngularFirestore, public firebaseService: FirebaseService) { }
+  constructor(private firestore: AngularFirestore, public firebaseService: FirebaseService, public backend: BackendService) { }
   isClicked(value: any) {
     this.value = value;
     if (this.open == true) {
@@ -45,14 +46,15 @@ export class MainInterfaceComponent implements OnInit {
         channel.forEach((el: any) => {
           if (el.id == id) {
             this.messages = el.messages;
+            // this.backend.updateInFirestore(
+            //   'channel',
+            //   this.messages,
+            //   id
+            // )
           }
         })
       });
   }
 
-  pushMessage(value: string) {
-    console.log(value)
-
-    //push message into array
-  }
+  
 }

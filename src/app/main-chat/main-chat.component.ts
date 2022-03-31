@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-main-chat',
@@ -8,9 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MainChatComponent implements OnInit {
   @Input() message!: string;
   currentTime = new Date();
-  constructor() { }
+  constructor(public backend: BackendService) { }
 
-  openThread(){
+  openThread() {
     console.log('thread opened');
   }
 

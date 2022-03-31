@@ -1,6 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage'; //for storage
+import { doc } from 'firebase/firestore';
+import { resourceLimits } from 'worker_threads';
 
 
 @Injectable({
@@ -14,6 +16,15 @@ export class BackendService implements OnInit {
     email: '',
     image: ''
   };
+  currentChannelIndex = 0;
+  currentChannelId: string = '';
+  currentChannel = {
+    id: '',
+    is_private: false,
+    name: '',
+    messages: [],
+
+  }
   data = {
     channels: [
       {
@@ -33,12 +44,29 @@ export class BackendService implements OnInit {
     ],
   };
   ngOnInit(): void {
-    this.getFromFirestore('user', 'users')
+    this.getFromFirestore('user', 'users'),
+      this.getFromFirestore('channel', 'channels')
 
 
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
+  saveCurrentChannel() {
+    this.data.channels[this.currentChannelIndex] = this.currentChannel;
+    this.updateInFirestore('channel', this.data.channels[this.currentChannelIndex], this.currentChannelId)
+  }
+  getCurrentChannel(id: any) {
+    for (let i = 0; i < this.data.channels.length; i++) {
+      console.log('id is ', id, 'id of channel is', this.data.channels[i].id)
+      if (id == this.data.channels[i].id) {
+
+        this.currentChannel = this.data.channels[i];
+        this.currentChannelIndex = i;
+        this.currentChannelId = id;
+        console.log('currentChannel is', this.currentChannel)
+      }
+    }
+  }
 
   // get the logged in user
 
@@ -55,13 +83,18 @@ export class BackendService implements OnInit {
   //create smth. new in Firestore
 
   public createInFirestore(category: string, objectToSave: any) {
+
     this.firestore
       .collection(category)
       .add(objectToSave)
       .then((result: any) => {
-        console.log(result);
+        console.log(result.id)
+        console.log(this.data)
+
       });
   }
+
+
 
   //update the Firestore 
 
@@ -88,6 +121,7 @@ export class BackendService implements OnInit {
       .subscribe((channels: any) => {
         this.data[dataToChange as keyof typeof this.data] = channels;
       });
+    console.log(this.data.channels)
   }
 
 

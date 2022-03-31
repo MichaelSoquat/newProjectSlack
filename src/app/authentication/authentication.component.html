@@ -36,7 +36,7 @@
                 <mat-card-content>
                     <form action="">
                         <mat-form-field>
-                            <input matInput placeholder="User Name" required name="username" ngModel
+                            <input #userSignup matInput placeholder="User Name" required name="username" ngModel
                                 #username="ngModel">
                             <mat-icon matSuffix>perm_identity</mat-icon>
                             <mat-error *ngIf="username.invalid">
@@ -69,7 +69,7 @@
                             </mat-error>
                             <mat-icon matSuffix>lock</mat-icon>
                         </mat-form-field>
-                        <button mat-raised-button color="primary" class="login-button" (click)="onSignup(emailSignup.value, passwordSignup.value)">
+                        <button mat-raised-button color="primary" class="login-button" (click)="onSignup(emailSignup.value, passwordSignup.value, userSignup.value)">
                             Sign Up
                         </button>
                     </form>

@@ -1,15 +1,13 @@
-class User {
+export class User {
     id;
     email;
-    first_name;
     image;
-    last_name;
+    name;
 
-    constructor(first_name, last_name, email) {
+    constructor(name: string, email: string) {
         this.id = Math.floor(Math.random() * 10000).toString();
         this.email = email;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.name = name;
         this.image = "https://i.pravatar.cc/24?img=1";
     }
 
@@ -17,8 +15,7 @@ class User {
         return {
             id: this.id,
             email: this.email,
-            frist_name: this.first_name,
-            last_name: this.last_name,
+            name: this.name,
             image: this.image,
         };
     }

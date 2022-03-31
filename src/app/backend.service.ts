@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 
@@ -6,9 +6,13 @@ import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fir
 @Injectable({
   providedIn: 'root',
 })
-export class BackendService {
-  loggedInUser: string = '';
-
+export class BackendService implements OnInit {
+  loggedInUser = {
+    id: '',
+    name: '',
+    email: '',
+    image: ''
+  };
   data = {
     channels: [
       {
@@ -21,18 +25,27 @@ export class BackendService {
     users: [
       {
         id: '1',
-        first_name: 'Max',
-        last_name: 'Mustermann',
+        name: '',
         email: 'xy@gmail.com',
         image: 'https://i.pravatar.cc/24?img=1',
       },
     ],
   };
+  ngOnInit(): void {
+    this.getFromFirestore('user', 'users')
 
+
+  }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
-  public setTheLoggedInUser(user: string) {
-    this.loggedInUser = user;
+  public async setTheLoggedInUser(email: any) {
+    console.log('user is', email, 'all users are', this.data.users)
+    for (let i = 0; i < this.data.users.length; i++) {
+      if (email == this.data.users[i].email) {
+        this.loggedInUser = this.data.users[i];
+      }
+      console.log('logged in user is', this.loggedInUser)
+    }
   }
 
   public createInFirestore(category: string, objectToSave: any) {

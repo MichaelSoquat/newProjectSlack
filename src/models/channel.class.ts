@@ -1,10 +1,10 @@
-class Channel {
+export class Channel {
     id;
     is_private;
-    messages;
+    messages: any[];
     name;
 
-    constructor(name, is_private) {
+    constructor(name: string, is_private: string) {
         this.id = Math.floor(Math.random() * 10000).toString();
         this.name = name;
         this.is_private = is_private;

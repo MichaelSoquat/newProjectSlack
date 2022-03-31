@@ -14,8 +14,7 @@ export class ToolbarComponent implements OnInit {
   @Output() isLogout = new EventEmitter<void>();
 
   constructor(public backend: BackendService, public firebaseService: FirebaseService) { }
-
-  ngOnInit(): void {
+  ngOnInit(): void {   
   }
   openCloseSidebar() {
     this.buttonClicked.emit('clicked');

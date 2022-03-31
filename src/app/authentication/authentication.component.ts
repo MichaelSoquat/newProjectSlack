@@ -34,7 +34,7 @@ export class AuthenticationComponent implements OnInit {
     await this.firebaseService.signup(email, password)
     if (this.firebaseService.isloggedIn)
       this.isSignedIn = true;
-    this.createUserJson();
+    await this.createUserJson();
   }
   async onSignin(email: string, password: string) {
     await this.firebaseService.signin(email, password)
@@ -44,8 +44,8 @@ export class AuthenticationComponent implements OnInit {
     this.getUserInfos();
   }
 
-  getUserInfos() {
-    this.backend.setTheLoggedInUser(this.email)
+  async getUserInfos() {
+    await this.backend.setTheLoggedInUser(this.email)
     this.router.navigate(['/'])  //login navigate to main side
   }
 
@@ -55,13 +55,13 @@ export class AuthenticationComponent implements OnInit {
     this.isSignedIn = false;
   }
 
-  createUserJson() {
+  async createUserJson() {
     this.user = new User(this.username, this.email);
-    this.addNewUserToFirebase();
+    await this.addNewUserToFirebase();
   }
 
-  addNewUserToFirebase() {
-    this.backend.createInFirestore('user', this.user.toJson())
+  async addNewUserToFirebase() {
+    await this.backend.createInFirestore('user', this.user.toJson())
   }
 
 }

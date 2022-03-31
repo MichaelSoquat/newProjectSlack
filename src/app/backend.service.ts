@@ -1,12 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
+import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage'; //for storage
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackendService implements OnInit {
+  file: any = {};
   loggedInUser = {
     id: '',
     name: '',
@@ -38,7 +39,10 @@ export class BackendService implements OnInit {
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
-  public async setTheLoggedInUser(email: any) {
+
+  // get the logged in user
+
+  public setTheLoggedInUser(email: any) {
     console.log('user is', email, 'all users are', this.data.users)
     for (let i = 0; i < this.data.users.length; i++) {
       if (email == this.data.users[i].email) {
@@ -48,6 +52,8 @@ export class BackendService implements OnInit {
     }
   }
 
+  //create smth. new in Firestore
+
   public createInFirestore(category: string, objectToSave: any) {
     this.firestore
       .collection(category)
@@ -56,6 +62,8 @@ export class BackendService implements OnInit {
         console.log(result);
       });
   }
+
+  //update the Firestore 
 
   public updateInFirestore(
     category: string,
@@ -71,6 +79,8 @@ export class BackendService implements OnInit {
       });
   }
 
+  // get data from Firestore
+
   public getFromFirestore(category: string, dataToChange: any) {
     this.firestore
       .collection(category)
@@ -80,7 +90,11 @@ export class BackendService implements OnInit {
       });
   }
 
-  file: any = {};
+
+
+
+
+  //Select file name
 
   chooseFile(event: any) {
     console.log(this.file)
@@ -89,6 +103,9 @@ export class BackendService implements OnInit {
     this.addData();
 
   }
+
+  //Save file in Firebase Storage
+
   addData() {
     const storageRef = ref(this.storage, this.file.name);
     const uploadTask = uploadBytesResumable(storageRef, this.file)

@@ -44,6 +44,8 @@ export class AuthenticationComponent implements OnInit {
     this.getUserInfos();
   }
 
+  // checks if email is part of all user emails and selects the logged in user
+
   async getUserInfos() {
     await this.backend.setTheLoggedInUser(this.email)
     this.router.navigate(['/'])  //login navigate to main side
@@ -55,13 +57,16 @@ export class AuthenticationComponent implements OnInit {
     this.isSignedIn = false;
   }
 
-  async createUserJson() {
+  // creates a new user json with user module
+  createUserJson() {
     this.user = new User(this.username, this.email);
-    await this.addNewUserToFirebase();
+    this.addNewUserToFirebase();
   }
 
-  async addNewUserToFirebase() {
-    await this.backend.createInFirestore('user', this.user.toJson())
+  // saves user json in Firestore
+
+  addNewUserToFirebase() {
+    this.backend.createInFirestore('user', this.user.toJson())
   }
 
 }

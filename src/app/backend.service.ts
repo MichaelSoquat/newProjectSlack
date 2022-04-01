@@ -23,6 +23,9 @@ export class BackendService implements OnInit {
     is_private: false,
     name: '',
     messages: [],
+    writtenFrom: [],
+    timeStamps: []
+
 
   }
   data = {
@@ -32,6 +35,8 @@ export class BackendService implements OnInit {
         is_private: false,
         name: '',
         messages: [],
+        writtenFrom: [],
+        timeStamps: []
       },
     ],
     users: [
@@ -51,21 +56,25 @@ export class BackendService implements OnInit {
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
-  saveCurrentChannel() {
-    this.data.channels[this.currentChannelIndex] = this.currentChannel;
-    this.updateInFirestore('channel', this.data.channels[this.currentChannelIndex], this.currentChannelId)
-  }
+
+  // get the actual channel
+
   getCurrentChannel(id: any) {
     for (let i = 0; i < this.data.channels.length; i++) {
       console.log('id is ', id, 'id of channel is', this.data.channels[i].id)
       if (id == this.data.channels[i].id) {
-
         this.currentChannel = this.data.channels[i];
         this.currentChannelIndex = i;
         this.currentChannelId = id;
-        console.log('currentChannel is', this.currentChannel)
       }
     }
+  }
+
+  // save the actual channel and update it to firestore
+
+  saveCurrentChannel() {
+    this.data.channels[this.currentChannelIndex] = this.currentChannel;
+    this.updateInFirestore('channel', this.data.channels[this.currentChannelIndex], this.currentChannelId)
   }
 
   // get the logged in user
@@ -88,13 +97,26 @@ export class BackendService implements OnInit {
       .collection(category)
       .add(objectToSave)
       .then((result: any) => {
-        console.log(result.id)
-        console.log(this.data)
-
+        if (category == "channel") {
+          this.updateDocumentIdToId(objectToSave, result)
+        }
       });
   }
 
+  // get same id like document id
 
+  updateDocumentIdToId(objectToSave, result) {
+    this.currentChannel = objectToSave;
+    this.currentChannel.id = result.id;
+    let get = this.data.channels.findIndex((el) => {
+      return el.name == this.currentChannel.name
+    })
+    this.currentChannelIndex = get;
+    this.data.channels[this.currentChannelIndex].id = this.currentChannel.id;
+    console.log(this.data.channels)
+    this.updateInFirestore('channel', this.data.channels[this.currentChannelIndex], this.data.channels[this.currentChannelIndex].id)
+
+  }
 
   //update the Firestore 
 

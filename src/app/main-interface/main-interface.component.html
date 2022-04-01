@@ -9,12 +9,12 @@
         </mat-drawer>
         <!-- MAIN-CONTENT -->
         <mat-drawer-content>
-            <app-main-chat *ngFor="let message of backend.currentChannel.messages" [message]="message"></app-main-chat>
+            <app-main-chat *ngFor="let message of backend.data.channelMessages" [message]="message" (buttonClicked)="openThread($event)"></app-main-chat>
             <app-main-content></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
-        <mat-drawer class="thread-right" mode="side" opened>
-            <app-thread></app-thread>
+        <mat-drawer class="thread-right" mode="side" opened={{threadOpened}}>
+            <app-thread [message_id]="message_id" (buttonClicked)="closeThread()"></app-thread>
         </mat-drawer>
     </mat-drawer-container>
 </div>

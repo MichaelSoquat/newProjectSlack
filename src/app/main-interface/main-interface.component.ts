@@ -5,31 +5,41 @@ import { BackendService } from '../backend.service';
 import { FirebaseService } from '../services/firebase.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
-
 @Component({
   selector: 'app-main-interface',
   templateUrl: './main-interface.component.html',
-  styleUrls: ['./main-interface.component.scss']
+  styleUrls: ['./main-interface.component.scss'],
 })
 export class MainInterfaceComponent implements OnInit {
-
+  threadOpened = false;
 
   open = true;
   value: string = '';
   messages = [];
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
+  answers = [];
+  message_id = '';
 
-
-
-  constructor(private firestore: AngularFirestore, public firebaseService: FirebaseService, public backend: BackendService) { }
+  constructor(
+    private firestore: AngularFirestore,
+    public firebaseService: FirebaseService,
+    public backend: BackendService
+  ) {}
   isClicked(value: any) {
     this.value = value;
     if (this.open == true) {
-      this.open = false
+      this.open = false;
     } else {
       this.open = true;
     }
+  }
+  openThread(id) {
+    this.message_id = id;
+    this.threadOpened = true;
+    this.backend.openThread(id);
+  }
+  closeThread() {
+    this.threadOpened = false;
   }
 
   // logout(){
@@ -38,9 +48,9 @@ export class MainInterfaceComponent implements OnInit {
   // }
 
   renderContent(id: any) {
-    console.log(id)
-    this.firestore.
-      collection('channel')
+    console.log(id);
+    this.firestore
+      .collection('channel')
       .valueChanges()
       .subscribe((channel: any) => {
         channel.forEach((el: any) => {
@@ -52,9 +62,7 @@ export class MainInterfaceComponent implements OnInit {
             //   id
             // )
           }
-        })
+        });
       });
   }
-
-  
 }

@@ -1,26 +1,22 @@
-class Message {
+export class Message {
     id;
+    channel_id;
     from;
-    to;
     message;
-    answers;
     time;
-    constructor(from, to, message) {
-        this.id = Math.floor(Math.random() * 10000).toString();
+    constructor(from, message, channel_id) {
+        this.id = 1;
+        this.channel_id = channel_id;
         this.from = from;
-        this.to = to;
         this.message = message;
         this.time = Date.now();
-        this.answers = [];
     }
 
     toJson() {
         return {
-            id: this.id,
             from: this.from,
-            to: this.to,
+            channel_id: this.channel_id,
             message: this.message,
-            answers: this.answers,
             time: this.time,
         };
     }

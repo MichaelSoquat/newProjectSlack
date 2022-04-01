@@ -1,21 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-main-chat',
   templateUrl: './main-chat.component.html',
-  styleUrls: ['./main-chat.component.scss']
+  styleUrls: ['./main-chat.component.scss'],
 })
 export class MainChatComponent implements OnInit {
-  @Input() message!: string;
-  currentTime = new Date();
-  constructor(public backend: BackendService) { }
+  @Input() message!: any;
+  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
-  openThread() {
-    console.log('thread opened');
+  constructor(public backend: BackendService) {}
+
+  openThread(id: string) {
+    this.backend.data.answers = [];
+    this.buttonClicked.emit(id);
   }
 
   ngOnInit(): void {
+    console.log(this.message);
   }
-
 }

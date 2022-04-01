@@ -3,18 +3,19 @@
 <div id="workspace">
     <mat-toolbar>
         <span>Thread ...</span>
+        <div (click)="closeThread()">Close Thread</div>
     </mat-toolbar>
 
     <!-- DISPLAY THREAD - CONTENT -->
 
     <div class="main">
         <div style="overflow-y: scroll; height: 100%;">
-            <div *ngFor="let content of message">
+            <div *ngFor="let message of backend.data.answers">
                 <mat-card class="m-3 positioning" style="background-color: #3f51b5">
                     <div style="margin-right: 150px;">
-                        <mat-card-title>User</mat-card-title>
-                        <mat-card-subtitle>Time</mat-card-subtitle>
-                        <mat-card-content>{{content}}</mat-card-content>
+                        <mat-card-title>{{message.from}}</mat-card-title>
+                        <mat-card-subtitle>{{message.time}}</mat-card-subtitle>
+                        <mat-card-content>{{message.message}}</mat-card-content>
                     </div>
                 </mat-card>
             </div>
@@ -28,8 +29,7 @@
                 <mat-icon>photo_camera</mat-icon>
             </button>
             <form>
-                <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto"
-                    cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
+                <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto" cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
                 </textarea>
             </form>
             <button (click)="showMessage(textarea.value)" type="submit" mat-icon-button>

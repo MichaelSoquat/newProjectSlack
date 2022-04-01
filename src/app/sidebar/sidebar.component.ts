@@ -17,14 +17,11 @@ export class SidebarComponent implements OnInit {
     public dialog: MatDialog,
     public firestore: AngularFirestore,
     public backend: BackendService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
-
     this.backend.getFromFirestore('channel', 'channels');
     this.backend.getFromFirestore('user', 'users');
-
   }
   openDialogChannel() {
     const dialogRef = this.dialog.open(AddChannelDialogComponent, {
@@ -53,8 +50,9 @@ export class SidebarComponent implements OnInit {
   }
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   openChannel(id: string) {
-    console.log(id)
-    this.backend.getCurrentChannel(id)
+    this.backend.getFromFirestore('messages', 'messages');
+    console.log(id);
+    this.backend.getCurrentChannel(id);
     this.buttonClicked.emit(id); //give Id to Interface
     // Abrufen der Messages --> ID des Channels wird übergeben
   }

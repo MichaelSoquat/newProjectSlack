@@ -2,12 +2,13 @@
     <img src="assets/img/profile_pic.png">
     <div class="chat-text-container">
         <div class="chat-header-container">
-            <h2>Username</h2>
-            <div class="time">{{currentTime}}</div>
+            <h2>{{message.from}}</h2>
+            <div class="time">{{message.time}}</div>
         </div>
         <div>
-            <p>{{message}}
+            <p>{{message.message}}
             </p>
         </div>
+        <div (click)="openThread(message.id)">open Thread</div>
     </div>
 </div>

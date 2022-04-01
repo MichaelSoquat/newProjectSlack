@@ -1,3 +1,4 @@
+<div><img [src]="backend.url" *ngIf="backend.url"></div>
 <div *ngFor="let message of backend.currentChannel.messages; let i = index" class="main-chat-container">
     <img src="assets/img/profile_pic.png">
     <div class="chat-text-container">

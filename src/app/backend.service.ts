@@ -10,6 +10,7 @@ import { resourceLimits } from 'worker_threads';
 })
 export class BackendService implements OnInit {
   file: any = {};
+  url: any = '';
   loggedInUser = {
     id: '',
     name: '',
@@ -155,6 +156,13 @@ export class BackendService implements OnInit {
   chooseFile(event: any) {
     console.log(this.file)
     this.file = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+
+    reader.onload = (_event) => {
+      this.url = reader.result;
+    }
+
     console.log(this.file.name)
     this.addData();
 

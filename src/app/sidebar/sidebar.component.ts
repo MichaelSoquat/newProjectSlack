@@ -37,6 +37,8 @@ export class SidebarComponent implements OnInit {
           name: result.name,
           is_private: result.isPrivate,
           messages: [],
+          writtenForm: [],
+          timeStamps: []
         });
       }
     });

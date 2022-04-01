@@ -18,6 +18,6 @@ export class MainChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.message);
+    console.log('hier die Nachricht: ', this.message);
   }
 }

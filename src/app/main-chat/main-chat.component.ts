@@ -8,6 +8,7 @@ import { BackendService } from '../backend.service';
 })
 export class MainChatComponent implements OnInit {
   @Input() message!: string;
+  @Input() index!: number;
   currentTime = new Date();
   constructor(public backend: BackendService) { }
 

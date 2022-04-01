@@ -23,7 +23,7 @@ export class BackendService implements OnInit {
     is_private: false,
     name: '',
     messages: [],
-    writtenFrom: [],
+    writtenForm: [],
     timeStamps: []
 
 
@@ -35,7 +35,7 @@ export class BackendService implements OnInit {
         is_private: false,
         name: '',
         messages: [],
-        writtenFrom: [],
+        writtenForm: [],
         timeStamps: []
       },
     ],

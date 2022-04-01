@@ -1,9 +1,9 @@
-<div class="main-chat-container">
+<div *ngFor="let message of backend.currentChannel.messages; let i = index" class="main-chat-container">
     <img src="assets/img/profile_pic.png">
     <div class="chat-text-container">
         <div class="chat-header-container">
-            <h2>Username</h2>
-            <div class="time">{{currentTime}}</div>
+            <h2>{{backend.currentChannel.writtenForm[i]}}</h2>
+            <div class="time">{{backend.currentChannel.timeStamps[i]}}</div>
         </div>
         <div>
             <p>{{message}}

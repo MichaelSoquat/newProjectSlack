@@ -60,7 +60,8 @@ export class SidebarComponent implements OnInit {
   }
   openDm(id: string) {
     // Abrufen der Messages --> ID des Empfängers wird übergeben
-    console.log(id);
+    this.backend.checkFirebaseContainsChatroom(id);
+    console.log('id is', id, 'loggedInUserId', this.backend.loggedInUser.id);
   }
   saveChannel(channel: Object) {
     this.backend.createInFirestore('channel', channel);

@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/storage'; //for storage
 import { doc } from 'firebase/firestore';
 import { resourceLimits } from 'worker_threads';
+import { Chatroom } from 'src/models/chatroom.class';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ import { resourceLimits } from 'worker_threads';
 export class BackendService implements OnInit {
   file: any = {};
   url: any = '';
+  chatroom!: Chatroom;
   loggedInUser = {
     id: '',
     name: '',
@@ -44,6 +46,14 @@ export class BackendService implements OnInit {
         timeStamps: [],
       },
     ],
+    chatroom: [
+      {
+        id: '',
+        from_user: '',
+        to_user: '',
+        messages: [],
+      },
+    ],
     users: [
       {
         id: '1',
@@ -55,18 +65,24 @@ export class BackendService implements OnInit {
     messages: [],
     channelMessages: [],
     answers: [],
+
   };
   ngOnInit(): void {
-    this.getFromFirestore('user', 'users'),
-      this.getFromFirestore('channel', 'channels');
-    this.getFromFirestore('messages', 'messages');
+    this.getFromFirestore('chatroom', 'chatroom')
+    this.getFromFirestore('user', 'users')
+    this.getFromFirestore('channel', 'channels')
+    this.getFromFirestore('messages', 'messages')
+
 
     //this.getChannelMessages(this.currentChannelId);
   }
-  constructor(public firestore: AngularFirestore, public storage: Storage) {}
+  constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
   // get the actual channel
-
+  checkFirebaseContainsChatroom(id) {
+    this.chatroom = new Chatroom(this.loggedInUser.id, id);
+    this.createInFirestore('chatroom', this.chatroom.toJson())
+  }
   getCurrentChannel(id: any) {
     for (let i = 0; i < this.data.channels.length; i++) {
       console.log('id is ', id, 'id of channel is', this.data.channels[i].id);
@@ -125,6 +141,7 @@ export class BackendService implements OnInit {
     for (let i = 0; i < this.data.users.length; i++) {
       if (email == this.data.users[i].email) {
         this.loggedInUser = this.data.users[i];
+
       }
     }
   }
@@ -136,33 +153,11 @@ export class BackendService implements OnInit {
       .collection(category)
       .add(objectToSave)
       .then((result: any) => {
-        if (category == 'channel') {
-          this.updateDocumentIdToId(objectToSave, result);
-        }
-        if (category === 'messages') {
-          let obj = objectToSave;
-          obj.id = result.id;
-          this.updateInFirestore('messages', obj, result.id);
-        }
+        let obj = objectToSave;
+        obj.id = result.id;
+        this.updateInFirestore(category, obj, result.id)
       });
-  }
 
-  // get same id like document id
-
-  updateDocumentIdToId(objectToSave, result) {
-    this.currentChannel = objectToSave;
-    this.currentChannel.id = result.id;
-    let get = this.data.channels.findIndex((el) => {
-      return el.name == this.currentChannel.name;
-    });
-    this.currentChannelIndex = get;
-    this.data.channels[this.currentChannelIndex].id = this.currentChannel.id;
-
-    this.updateInFirestore(
-      'channel',
-      this.data.channels[this.currentChannelIndex],
-      this.data.channels[this.currentChannelIndex].id
-    );
   }
 
   //update the Firestore
@@ -188,8 +183,10 @@ export class BackendService implements OnInit {
       .collection(category)
       .valueChanges()
       .subscribe((channels: any) => {
+        console.log('channels', channels)
         this.data[dataToChange as keyof typeof this.data] = channels;
       });
+    console.log('data is', this.data)
   }
 
   //

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmailAuthCredential } from 'firebase/auth';
+import { Channel } from 'src/models/channel.class';
+import { Chatroom } from 'src/models/chatroom.class';
 import { User } from 'src/models/user.class';
 import { BackendService } from '../backend.service';
 import { FirebaseService } from '../services/firebase.service';
@@ -14,6 +16,7 @@ import { FirebaseService } from '../services/firebase.service';
 export class AuthenticationComponent implements OnInit {
 
   user!: User;
+  chatroom!: Chatroom;
   isSignedIn = false;
   email: string = '';
   password: string = '';
@@ -62,6 +65,7 @@ export class AuthenticationComponent implements OnInit {
     this.user = new User(this.username, this.email);
     this.addNewUserToFirebase();
   }
+
 
   // saves user json in Firestore
 

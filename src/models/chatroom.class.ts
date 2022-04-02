@@ -1,13 +1,13 @@
-class Chatroom {
+export class Chatroom {
     id;
     from_user;
     to_user;
     messages;
-    constructor(from_user, to_user, messages) {
+    constructor(from_user, to_user) {
         this.id = Math.floor(Math.random() * 10000).toString();
         this.from_user = from_user;
         this.to_user = to_user;
-        this.messages = messages;
+        this.messages = [];
     }
 
     toJson() {

@@ -80,6 +80,8 @@ export class BackendService implements OnInit {
 
   // get the actual channel
   checkFirebaseContainsChatroom(id) {
+
+    //check missing if chatroom is already there
     this.chatroom = new Chatroom(this.loggedInUser.id, id);
     this.createInFirestore('chatroom', this.chatroom.toJson())
   }

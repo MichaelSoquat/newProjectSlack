@@ -10,3 +10,48 @@
 .max-width {
     max-width: 100%;
 }
+
+.m-l-8 {
+    margin-left: 8px;
+}
+
+.main-chat-container {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 50%;
+    margin-top: 30px;
+    img {
+        height: 35px;
+        width: 35px;
+        object-fit: cover;
+        margin-right: 8px;
+    }
+    &:last-child {
+        margin-bottom: 80px;
+    }
+}
+
+.chat-bottom-section {
+    color: rgb(26, 26, 204);
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.chat-header-container {
+    display: flex;
+    align-items: center;
+}
+
+h2 {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.time {
+    color: grey;
+}

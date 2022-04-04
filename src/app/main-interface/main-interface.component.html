@@ -14,7 +14,7 @@
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
         <mat-drawer class="thread-right" mode="side" opened={{threadOpened}}>
-            <app-thread [message_id]="message_id" (buttonClicked)="closeThread()"></app-thread>
+            <app-thread [message_id]="message_id" [basedMessage]="basedMessage" (buttonClicked)="closeThread()"></app-thread>
         </mat-drawer>
     </mat-drawer-container>
 </div>

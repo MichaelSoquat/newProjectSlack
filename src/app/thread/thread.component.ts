@@ -10,6 +10,9 @@ import { BackendService } from '../backend.service';
 export class ThreadComponent implements OnInit {
   @Output() buttonClicked = new EventEmitter<void>();
   @Input() message_id;
+  @Input() basedMessage;
+
+  currentMessage: any;
 
   test = [
     'sidaflöajasdf',
@@ -26,7 +29,12 @@ export class ThreadComponent implements OnInit {
   defaultValue: string = '';
   constructor(private firestore: Firestore, public backend: BackendService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentMessage = this.backend.data.channelMessages.filter(
+      (message) => message.id == this.message_id
+    );
+    console.log('die Aktuelle Message: ', this.currentMessage);
+  }
   closeThread() {
     this.buttonClicked.emit();
   }

@@ -14,7 +14,7 @@
             <mat-card class="m-3 positioning" style="background-color: #3f51b5">
                 <div style="margin-right: 150px;">
                     <mat-card-title>{{basedMessage.from}}</mat-card-title>
-                    <mat-card-subtitle>{{basedMessage.time}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{getDate()}}</mat-card-subtitle>
                     <mat-card-content>{{basedMessage.message}}</mat-card-content>
                 </div>
             </mat-card>
@@ -23,7 +23,7 @@
                 <mat-card class="m-3 positioning m-l-8 " style="background-color: #3f51b5; opacity: 0.8;">
                     <div style="margin-right: 150px;">
                         <mat-card-title>{{message.from}}</mat-card-title>
-                        <mat-card-subtitle>{{message.time}}</mat-card-subtitle>
+                        <mat-card-subtitle>{{getDate()}}</mat-card-subtitle>
                         <mat-card-content>{{message.message}}</mat-card-content>
                     </div>
                 </mat-card>

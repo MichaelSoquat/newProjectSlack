@@ -44,4 +44,31 @@ export class ThreadComponent implements OnInit {
     this.backend.saveAnswer(message, this.message_id);
     this.defaultValue = '';
   }
+  getDate() {
+    let date = new Date(this.basedMessage.time);
+    var months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    var year = date.getFullYear();
+    var month = months[date.getMonth()];
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+    var sec = date.getSeconds();
+    var formattedDate =
+      day + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+
+    return formattedDate;
+  }
 }

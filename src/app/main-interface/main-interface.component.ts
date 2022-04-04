@@ -12,6 +12,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class MainInterfaceComponent implements OnInit {
   threadOpened = false;
+  basedMessage = {};
 
   open = true;
   value: string = '';
@@ -36,6 +37,11 @@ export class MainInterfaceComponent implements OnInit {
   openThread(id) {
     this.message_id = id;
     this.threadOpened = true;
+    this.basedMessage = this.backend.data.channelMessages.filter(
+      (message) => message.id == this.message_id
+    )[0];
+    console.log('BasedMessage: ', this.basedMessage);
+
     this.backend.openThread(id);
   }
   closeThread() {

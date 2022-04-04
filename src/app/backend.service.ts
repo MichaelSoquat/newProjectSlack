@@ -61,48 +61,48 @@ export class BackendService implements OnInit {
     chatroom: [],
     channelMessages: [],
     answers: [],
-
   };
   chatroomExists = [];
   currentChatroomIndex = 0;
   currentChatroom: any = [];
   currentChatroomId = '';
-  ngOnInit(): void {
 
+  ngOnInit(): void {
     this.getFromFirestore('user', 'users')
     this.getFromFirestore('channel', 'channels')
     this.getFromFirestore('messages', 'messages')
-
-
-    //this.getChannelMessages(this.currentChannelId);
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
   // get the actual channel
-  checkFirebaseContainsChatroom(id) {
-    this.getFromFirestore('chatroom', 'chatroom');    // get Chatrooms
-    // this.chatroomExists = this.data.chatroom.filter((chat) => {
-    //   return ((chat.from_user == id || chat.from_user == this.loggedInUser.id) &&
-    //     (chat.to_user == id || chat.to_user == this.loggedInUser.id))
-    // })
+  async checkFirebaseContainsChatroom(id) {
+
+    this.chatroomExists = [];
+
+    this.chatroomAlreadyThere(id);
+    if (this.chatroomExists.length == 0) {
+      this.chatroomExists = [];
+      this.chatroom = new Chatroom(this.loggedInUser.id, id);
+      await this.createInFirestore('chatroom', this.chatroom.toJson());      //Hier Abbruch // nochmal ansehen
+      await this.getFromFirestore('chatroom', 'chatroom');                  //wahrscheinlich wegen return im Objekt
+      this.chatroomAlreadyThere(id);
+
+    }
+
+  }
+
+  chatroomAlreadyThere(id) {
+    this.chatroomExists = [];
     for (let i = 0; i < this.data.chatroom.length ? this.data.chatroom.length : 0; i++) {
       if (((this.data.chatroom[i].from_user == id || this.data.chatroom[i].from_user == this.loggedInUser.id) &&
         (this.data.chatroom[i].to_user == id || this.data.chatroom[i].to_user == this.loggedInUser.id))) {
         this.chatroomExists = this.data.chatroom[i];
+        this.currentChatroom = this.chatroomExists;
         this.currentChatroomIndex = i;
-        this.currentChatroomId = id;
+
       }
-      console.log(this.currentChatroomId, id)
+      console.log('chatroom current is', this.currentChatroom)
     }
-    console.log('chatroom exists is', this.chatroomExists)
-    if (this.chatroomExists.length == 0) {
-      this.chatroom = new Chatroom(this.loggedInUser.id, id);
-      this.createInFirestore('chatroom', this.chatroom.toJson())
-      this.chatroom = this.currentChatroom;
-    }
-    this.getFromFirestore('chatroom', 'chatroom');    // get Chatrooms
-    this.chatroomExists = this.currentChatroom;
-    console.log('log out', this.data.chatroom)
   }
   getCurrentChannel(id: any) {
     for (let i = 0; i < this.data.channels.length; i++) {
@@ -136,10 +136,10 @@ export class BackendService implements OnInit {
 
   saveDirectMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let messageObj = new Message(name, message, this.currentChatroomId);
-    this.currentChatroom.push(messageObj.toJson());
-    this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom;
-    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex], this.currentChatroomId)
+    let messageObj = new Message(name, message, this.currentChatroom.id);
+    this.currentChatroom.messages.push(messageObj.toJson());
+    this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom.messages;
+    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex], this.currentChatroom.id)
   }
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
@@ -147,7 +147,7 @@ export class BackendService implements OnInit {
     this.createInFirestore('messages', messageObj.toJson());
   }
   saveAnswer(message: string, message_id: string) {
-    let name = this.loggedInUser.name ? this.loggedInUser.name : 'Hugo';
+    let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let answerObj = new Answer(name, message, message_id);
     this.createInFirestore('answers', answerObj.toJson());
   }
@@ -169,33 +169,31 @@ export class BackendService implements OnInit {
     for (let i = 0; i < this.data.users.length; i++) {
       if (email == this.data.users[i].email) {
         this.loggedInUser = this.data.users[i];
-
       }
     }
   }
 
   //create smth. new in Firestore
 
-  public createInFirestore(category: string, objectToSave: any) {
-    this.firestore
+  public async createInFirestore(category: string, objectToSave: any) {
+    await this.firestore
       .collection(category)
       .add(objectToSave)
       .then((result: any) => {
         let obj = objectToSave;
         obj.id = result.id;
-        this.updateInFirestore(category, obj, result.id)
+        this.updateInFirestore(category, obj, result.id);
       });
-
   }
 
   //update the Firestore
 
-  public updateInFirestore(
+  public async updateInFirestore(
     category: string,
     objectToUpdate: any,
     elementId: string
   ) {
-    this.firestore
+    await this.firestore
       .collection(category)
       .doc(elementId)
       .update(objectToUpdate)
@@ -211,10 +209,9 @@ export class BackendService implements OnInit {
       .collection(category)
       .valueChanges()
       .subscribe((channels: any) => {
-        console.log('channels', channels)
+        console.log('channels', channels);
         this.data[dataToChange as keyof typeof this.data] = channels;
       });
-    console.log('data is', this.data)
   }
 
   //

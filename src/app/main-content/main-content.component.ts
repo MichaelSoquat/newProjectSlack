@@ -22,6 +22,7 @@ export class MainContentComponent implements OnInit {
 
     } else if (this.backend.directChatOpen) {
       this.defaultValue = '';
+
       this.backend.saveDirectMessage(textarea.value)
     }
 

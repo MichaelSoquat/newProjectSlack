@@ -10,6 +10,9 @@ import { BackendService } from '../backend.service';
 export class ThreadComponent implements OnInit {
   @Output() buttonClicked = new EventEmitter<void>();
   @Input() message_id;
+  @Input() basedMessage;
+
+  currentMessage: any;
 
   test = [
     'sidaflöajasdf',
@@ -26,7 +29,12 @@ export class ThreadComponent implements OnInit {
   defaultValue: string = '';
   constructor(private firestore: Firestore, public backend: BackendService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentMessage = this.backend.data.channelMessages.filter(
+      (message) => message.id == this.message_id
+    );
+    console.log('die Aktuelle Message: ', this.currentMessage);
+  }
   closeThread() {
     this.buttonClicked.emit();
   }
@@ -35,5 +43,32 @@ export class ThreadComponent implements OnInit {
     // this.message.push(message);
     this.backend.saveAnswer(message, this.message_id);
     this.defaultValue = '';
+  }
+  getDate() {
+    let date = new Date(this.basedMessage.time);
+    var months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    var year = date.getFullYear();
+    var month = months[date.getMonth()];
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+    var sec = date.getSeconds();
+    var formattedDate =
+      day + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+
+    return formattedDate;
   }
 }

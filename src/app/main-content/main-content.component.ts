@@ -8,17 +8,23 @@ import { BackendService } from '../backend.service';
 })
 export class MainContentComponent implements OnInit {
   defaultValue: string = '';
-  constructor(public backend: BackendService) {}
+  constructor(public backend: BackendService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   pushMessage(textarea: any) {
-    this.defaultValue = '';
-    // this.backend.currentChannel.messages.push(textarea.value)
-    this.backend.saveMessage(textarea.value);
-    //console.log(textarea.value);
+    if (this.backend.mainChatOpen) {
+      this.defaultValue = '';
+      // this.backend.currentChannel.messages.push(textarea.value)
+      this.backend.saveMessage(textarea.value);
+      //console.log(textarea.value);
+      //this.backend.saveCurrentChannel();
 
-    //this.backend.saveCurrentChannel();
+    } else if (this.backend.directChatOpen) {
+      this.defaultValue = '';
+      this.backend.saveDirectMessage(textarea.value)
+    }
+
   }
 
   click(value: any) {

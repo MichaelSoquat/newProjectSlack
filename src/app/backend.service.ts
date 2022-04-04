@@ -16,6 +16,8 @@ import { Chatroom } from 'src/models/chatroom.class';
   providedIn: 'root',
 })
 export class BackendService implements OnInit {
+  mainChatOpen = false;
+  directChatOpen = false;
   file: any = {};
   url: any = '';
   chatroom!: Chatroom;
@@ -46,14 +48,7 @@ export class BackendService implements OnInit {
         timeStamps: [],
       },
     ],
-    chatroom: [
-      {
-        id: '',
-        from_user: '',
-        to_user: '',
-        messages: [],
-      },
-    ],
+
     users: [
       {
         id: '1',
@@ -63,12 +58,17 @@ export class BackendService implements OnInit {
       },
     ],
     messages: [],
+    chatroom: [],
     channelMessages: [],
     answers: [],
 
   };
+  chatroomExists = [];
+  currentChatroomIndex = 0;
+  currentChatroom: any = [];
+  currentChatroomId = '';
   ngOnInit(): void {
-    this.getFromFirestore('chatroom', 'chatroom')
+
     this.getFromFirestore('user', 'users')
     this.getFromFirestore('channel', 'channels')
     this.getFromFirestore('messages', 'messages')
@@ -80,10 +80,29 @@ export class BackendService implements OnInit {
 
   // get the actual channel
   checkFirebaseContainsChatroom(id) {
-
-    //check missing if chatroom is already there
-    this.chatroom = new Chatroom(this.loggedInUser.id, id);
-    this.createInFirestore('chatroom', this.chatroom.toJson())
+    this.getFromFirestore('chatroom', 'chatroom');    // get Chatrooms
+    // this.chatroomExists = this.data.chatroom.filter((chat) => {
+    //   return ((chat.from_user == id || chat.from_user == this.loggedInUser.id) &&
+    //     (chat.to_user == id || chat.to_user == this.loggedInUser.id))
+    // })
+    for (let i = 0; i < this.data.chatroom.length ? this.data.chatroom.length : 0; i++) {
+      if (((this.data.chatroom[i].from_user == id || this.data.chatroom[i].from_user == this.loggedInUser.id) &&
+        (this.data.chatroom[i].to_user == id || this.data.chatroom[i].to_user == this.loggedInUser.id))) {
+        this.chatroomExists = this.data.chatroom[i];
+        this.currentChatroomIndex = i;
+        this.currentChatroomId = id;
+      }
+      console.log(this.currentChatroomId, id)
+    }
+    console.log('chatroom exists is', this.chatroomExists)
+    if (this.chatroomExists.length == 0) {
+      this.chatroom = new Chatroom(this.loggedInUser.id, id);
+      this.createInFirestore('chatroom', this.chatroom.toJson())
+      this.chatroom = this.currentChatroom;
+    }
+    this.getFromFirestore('chatroom', 'chatroom');    // get Chatrooms
+    this.chatroomExists = this.currentChatroom;
+    console.log('log out', this.data.chatroom)
   }
   getCurrentChannel(id: any) {
     for (let i = 0; i < this.data.channels.length; i++) {
@@ -115,6 +134,13 @@ export class BackendService implements OnInit {
     });
   }
 
+  saveDirectMessage(message: string) {
+    let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
+    let messageObj = new Message(name, message, this.currentChatroomId);
+    this.currentChatroom.push(messageObj.toJson());
+    this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom;
+    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex], this.currentChatroomId)
+  }
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let messageObj = new Message(name, message, this.currentChannelId);
@@ -180,8 +206,8 @@ export class BackendService implements OnInit {
 
   // get data from Firestore
 
-  public getFromFirestore(category: string, dataToChange: any) {
-    this.firestore
+  public async getFromFirestore(category: string, dataToChange: any) {
+    await this.firestore
       .collection(category)
       .valueChanges()
       .subscribe((channels: any) => {

@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit {
     public dialog: MatDialog,
     public firestore: AngularFirestore,
     public backend: BackendService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.backend.getFromFirestore('channel', 'channels');
@@ -52,6 +52,8 @@ export class SidebarComponent implements OnInit {
   }
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   openChannel(id: string) {
+    this.backend.mainChatOpen = true;
+    this.backend.directChatOpen = false;
     this.backend.getFromFirestore('messages', 'messages');
     console.log(id);
     this.backend.getCurrentChannel(id);
@@ -59,9 +61,12 @@ export class SidebarComponent implements OnInit {
     // Abrufen der Messages --> ID des Channels wird übergeben
   }
   openDm(id: string) {
+    this.backend.mainChatOpen = false;
+    this.backend.directChatOpen = true;
     // Abrufen der Messages --> ID des Empfängers wird übergeben
     this.backend.checkFirebaseContainsChatroom(id);
     console.log('id is', id, 'loggedInUserId', this.backend.loggedInUser.id);
+
   }
   saveChannel(channel: Object) {
     this.backend.createInFirestore('channel', channel);

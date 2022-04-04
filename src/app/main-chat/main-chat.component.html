@@ -1,5 +1,6 @@
 <div><img [src]="backend.url" *ngIf="backend.url"></div>
-<div class="main-chat-container">
+<!-- MAIN CHANNELS -->
+<div *ngIf="backend.mainChatOpen" class="main-chat-container">
     <img src="assets/img/profile_pic.png">
     <div class="chat-text-container">
         <div class="chat-header-container">
@@ -13,3 +14,17 @@
         <div (click)="openThread(message.id)">open Thread</div>
     </div>
 </div>
+
+<!-- DIRECT MESSAGES -->
+
+<div *ngIf="backend.directChatOpen" class="main-chat-container">
+    <img src="assets/img/profile_pic.png">
+    <div class="chat-text-container">
+        <div class="chat-header-container">
+            <h2>{{chat.from}}</h2>
+            <div class="time">{{chat.time}}</div>
+        </div>
+        <div>
+            <p>{{chat.message}}
+            </p>
+        </div>

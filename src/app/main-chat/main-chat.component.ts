@@ -8,13 +8,15 @@ import { BackendService } from '../backend.service';
 })
 export class MainChatComponent implements OnInit {
   @Input() message!: any;
+  @Input() chat!: any;
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(public backend: BackendService) {}
+  constructor(public backend: BackendService) { }
 
   openThread(id: string) {
     this.backend.data.answers = [];
     this.buttonClicked.emit(id);
+    console.log('data is', this.backend.data)
   }
 
   ngOnInit(): void {

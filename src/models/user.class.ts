@@ -8,7 +8,7 @@ export class User {
         this.id = Math.floor(Math.random() * 10000).toString();
         this.email = email;
         this.name = name;
-        this.image = "https://i.pravatar.cc/24?img=1";
+        this.image = `https://i.pravatar.cc/24?img=${Math.floor(Math.random() * 8)}`;
     }
 
     toJson() {

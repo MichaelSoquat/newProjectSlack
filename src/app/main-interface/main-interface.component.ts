@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '../backend.service';
 import { FirebaseService } from '../services/firebase.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -16,15 +17,21 @@ export class MainInterfaceComponent implements OnInit {
   open = true;
   value: string = '';
   messages = [];
-  ngOnInit(): void {}
+  //? Gedanke dahinter
   answers = [];
   message_id = '';
 
   constructor(
     private firestore: AngularFirestore,
     public firebaseService: FirebaseService,
-    public backend: BackendService
+    public backend: BackendService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
+
+  ngOnInit(): void {
+  
+  }
   isClicked(value: any) {
     this.value = value;
     if (this.open == true) {

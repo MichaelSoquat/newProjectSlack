@@ -1,6 +1,7 @@
 <div><img [src]="backend.url" *ngIf="backend.url"></div>
 <div class="main-chat-container">
-    <img src="assets/img/profile_pic.png">
+   <img class="profil-img" [src]="userImageSource">
+
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{message.from}}</h2>

@@ -9,7 +9,9 @@
         </mat-drawer>
         <!-- MAIN-CONTENT -->
         <mat-drawer-content>
-            <app-main-chat *ngFor="let message of backend.data.channelMessages" [message]="message" (buttonClicked)="openThread($event)"></app-main-chat>
+            <ng-container *ngFor="let message of backend.data.channelMessages"> <!--*ngIf="message.ownerId"-->
+                <app-main-chat  [message]="message" (buttonClicked)="openThread($event)"></app-main-chat>
+            </ng-container>
             <app-main-content></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->

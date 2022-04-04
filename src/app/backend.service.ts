@@ -143,7 +143,7 @@ export class BackendService implements OnInit {
   }
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let messageObj = new Message(name, message, this.currentChannelId);
+    let messageObj = new Message(name, message, this.currentChannelId, this.loggedInUser.id);
     this.createInFirestore('messages', messageObj.toJson());
   }
   saveAnswer(message: string, message_id: string) {

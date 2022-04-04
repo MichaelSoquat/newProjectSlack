@@ -11,7 +11,12 @@ export class MainChatComponent implements OnInit {
   @Input() chat!: any;
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(public backend: BackendService) { }
+  public userName: string;
+  public messageSender: string;
+  public userImageSource: string;
+
+  constructor(public backend: BackendService) {
+  }
 
   openThread(id: string) {
     this.backend.data.answers = [];
@@ -19,8 +24,20 @@ export class MainChatComponent implements OnInit {
     console.log('data is', this.backend.data)
   }
 
+  getMessageImageSource(){
+    this.userName = this.message.from;
+    for (let i = 0; i < this.backend.data.users.length; i++) {
+      const user = this.backend.data.users[i];
+      if(user.name == this.userName){
+        return user.image;
+      }
+    }
+    return "https://i.pravatar.cc/24?img=1";
+  }
+
   ngOnInit(): void {
     console.log('hier die Nachricht: ', this.message);
+    this.userImageSource = this.getMessageImageSource();
   }
   getDate() {
     let date = new Date(this.message.time);

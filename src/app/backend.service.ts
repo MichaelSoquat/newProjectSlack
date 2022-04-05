@@ -66,31 +66,29 @@ export class BackendService implements OnInit {
   currentChatroomIndex = 0;
   currentChatroom: any = [];
   currentChatroomId = '';
-
   ngOnInit(): void {
     this.getFromFirestore('user', 'users')
     this.getFromFirestore('channel', 'channels')
     this.getFromFirestore('messages', 'messages')
+
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
   // get the actual channel
   async checkFirebaseContainsChatroom(id) {
-
     this.chatroomExists = [];
-
     this.chatroomAlreadyThere(id);
     if (this.chatroomExists.length == 0) {
       this.chatroomExists = [];
       this.chatroom = new Chatroom(this.loggedInUser.id, id);
-      await this.createInFirestore('chatroom', this.chatroom.toJson());      //Hier Abbruch // nochmal ansehen
-      await this.getFromFirestore('chatroom', 'chatroom');                  //wahrscheinlich wegen return im Objekt
-      this.chatroomAlreadyThere(id);
-
+      setTimeout(() => {
+        this.getFromFirestore('chatroom', 'chatroom');
+      }, 250)
+      await this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
     }
-
   }
 
+  //if chatroom is already there
   chatroomAlreadyThere(id) {
     this.chatroomExists = [];
     for (let i = 0; i < this.data.chatroom.length ? this.data.chatroom.length : 0; i++) {
@@ -99,9 +97,7 @@ export class BackendService implements OnInit {
         this.chatroomExists = this.data.chatroom[i];
         this.currentChatroom = this.chatroomExists;
         this.currentChatroomIndex = i;
-
       }
-      console.log('chatroom current is', this.currentChatroom)
     }
   }
   getCurrentChannel(id: any) {
@@ -136,10 +132,11 @@ export class BackendService implements OnInit {
 
   saveDirectMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let messageObj = new Message(name, message, this.currentChatroom.id);
+    let messageObj = new Message(name, message, this.currentChatroom.id, 1);
     this.currentChatroom.messages.push(messageObj.toJson());
     this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom.messages;
-    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex], this.currentChatroom.id)
+    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex],
+      this.currentChatroom.id)
   }
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';

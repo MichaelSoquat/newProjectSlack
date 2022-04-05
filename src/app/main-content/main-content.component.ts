@@ -13,6 +13,7 @@ export class MainContentComponent implements OnInit {
   ngOnInit(): void { }
 
   pushMessage(textarea: any) {
+    console.log('mainChat', this.backend.mainChatOpen, 'dM', this.backend.directChatOpen)
     if (this.backend.mainChatOpen) {
       this.defaultValue = '';
       // this.backend.currentChannel.messages.push(textarea.value)
@@ -24,9 +25,12 @@ export class MainContentComponent implements OnInit {
       this.defaultValue = '';
 
       this.backend.saveDirectMessage(textarea.value)
+
     }
 
   }
+
+
 
   click(value: any) {
     console.log(value);

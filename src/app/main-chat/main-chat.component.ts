@@ -40,7 +40,13 @@ export class MainChatComponent implements OnInit {
     // this.userImageSource = this.getMessageImageSource();
   }
   getDate() {
-    let date = new Date(this.message.time);
+    let date;
+    if (this.backend.mainChatOpen) {
+      date = new Date(this.message.time);
+    } else if (this.backend.directChatOpen) {
+      date = new Date(this.chat.time);
+    }
+
     var months = [
       'Jan',
       'Feb',

@@ -69,7 +69,7 @@ export class BackendService implements OnInit {
   ngOnInit(): void {
     this.getFromFirestore('user', 'users')
     this.getFromFirestore('channel', 'channels')
-    this.getFromFirestore('messages', 'messages')
+
 
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
@@ -77,20 +77,20 @@ export class BackendService implements OnInit {
   // get the actual channel
   async checkFirebaseContainsChatroom(id) {
     this.chatroomExists = [];
-    this.chatroomAlreadyThere(id);
+    await this.getFromFirestore('messages', 'messages');
+    await this.chatroomAlreadyThere(id);
     if (this.chatroomExists.length == 0) {
-      this.chatroomExists = [];
       this.chatroom = new Chatroom(this.loggedInUser.id, id);
       setTimeout(() => {
         this.getFromFirestore('chatroom', 'chatroom');
+        this.chatroomAlreadyThere(id);
       }, 250)
-      await this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
+      this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
     }
   }
 
   //if chatroom is already there
   chatroomAlreadyThere(id) {
-    this.chatroomExists = [];
     for (let i = 0; i < this.data.chatroom.length ? this.data.chatroom.length : 0; i++) {
       if (((this.data.chatroom[i].from_user == id || this.data.chatroom[i].from_user == this.loggedInUser.id) &&
         (this.data.chatroom[i].to_user == id || this.data.chatroom[i].to_user == this.loggedInUser.id))) {
@@ -100,6 +100,7 @@ export class BackendService implements OnInit {
       }
     }
   }
+
   getCurrentChannel(id: any) {
     for (let i = 0; i < this.data.channels.length; i++) {
       console.log('id is ', id, 'id of channel is', this.data.channels[i].id);

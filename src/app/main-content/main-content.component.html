@@ -1,8 +1,8 @@
 <div class="main-container">
 
     <button (click)="file.click()" mat-icon-button>
-        <input (change)="backend.chooseFile($event)" type="file" accept="image/*"
-            #file style="position: fixed; top: -100em;">
+        <input (change)="backend.chooseFile($event)" type="file" accept="image/*" #file
+            style="position: fixed; top: -100em;">
         <mat-icon>photo_camera</mat-icon>
     </button>
 
@@ -10,7 +10,7 @@
         <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto"
             cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
                 </textarea>
-
+        <div><img class="little-pic" [src]="backend.url" *ngIf="backend.url"></div> <!-- Picture for Posting -->
         <button (click)="pushMessage(textarea)" type="submit" mat-icon-button>
             <mat-icon>send</mat-icon>
         </button>

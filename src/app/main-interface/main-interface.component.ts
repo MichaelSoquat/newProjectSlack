@@ -12,7 +12,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   styleUrls: ['./main-interface.component.scss'],
 })
 export class MainInterfaceComponent implements OnInit {
-  threadOpened = false;
+
   basedMessage = {};
 
   open = true;
@@ -28,10 +28,10 @@ export class MainInterfaceComponent implements OnInit {
     public backend: BackendService,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-  
+
   }
   isClicked(value: any) {
     this.value = value;
@@ -43,7 +43,7 @@ export class MainInterfaceComponent implements OnInit {
   }
   openThread(id) {
     this.message_id = id;
-    this.threadOpened = true;
+    this.backend.threadOpened = true;
     this.basedMessage = this.backend.data.channelMessages.filter(
       (message) => message.id == this.message_id
     )[0];
@@ -52,7 +52,7 @@ export class MainInterfaceComponent implements OnInit {
     this.backend.openThread(id);
   }
   closeThread() {
-    this.threadOpened = false;
+    this.backend.threadOpened = false;
   }
 
   // logout(){

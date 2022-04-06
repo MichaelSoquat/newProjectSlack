@@ -9,14 +9,13 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from '@angular/fire/storage'; //for storage
-import { doc } from 'firebase/firestore';
-import { resourceLimits } from 'worker_threads';
 import { Chatroom } from 'src/models/chatroom.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackendService implements OnInit {
+  threadOpened = false;
   mainChatOpen = false;
   directChatOpen = false;
   file: any = {};
@@ -71,8 +70,6 @@ export class BackendService implements OnInit {
   ngOnInit(): void {
     this.getFromFirestore('user', 'users')
     this.getFromFirestore('channel', 'channels')
-
-
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
@@ -99,10 +96,8 @@ export class BackendService implements OnInit {
         this.chatroomExists = this.data.chatroom[i];
         this.currentChatroom = this.chatroomExists;
         this.currentChatroomIndex = i;
-        console.log('currentChatroom is', this.currentChatroom)
       }
     }
-    console.log('currentChatroom is', this.currentChatroom)
   }
 
   getCurrentChannel(id: any) {
@@ -115,8 +110,6 @@ export class BackendService implements OnInit {
       }
     }
 
-    //this.getFromFirestore('messages', 'messages');
-    //this.getChannelMessages(this.currentChannelId);
     this.getFromFirestoreById(
       'messages',
       'channelMessages',
@@ -154,7 +147,8 @@ export class BackendService implements OnInit {
   }
   saveAnswer(message: string, message_id: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let answerObj = new Answer(name, message, message_id);
+    let url = this.file.name ? this.file.name : '';
+    let answerObj = new Answer(name, message, message_id, url);
     this.createInFirestore('answers', answerObj.toJson());
     this.url = '';
   }
@@ -216,7 +210,6 @@ export class BackendService implements OnInit {
       .collection(category)
       .valueChanges()
       .subscribe((channels: any) => {
-        console.log('channels', channels);
         this.data[dataToChange as keyof typeof this.data] = channels;
         this.filterForUrl();
       });
@@ -231,9 +224,6 @@ export class BackendService implements OnInit {
         let filteredMessages = this.getChannelMessages(messages, id);
         filteredMessages.sort((m1, m2) => m1.time > m2.time);
         this.data[dataToChange as keyof typeof this.data] = filteredMessages;
-        console.log('Gefilterten Nachrichten: ', filteredMessages);
-        console.log(this.data[dataToChange as keyof typeof this.data]);
-        console.log(this.data['channelMessages']);
       });
   }
 
@@ -246,13 +236,12 @@ export class BackendService implements OnInit {
         filteredMessages.sort((m1, m2) => m1.time > m2.time);
         this.data[dataToChange as keyof typeof this.data] = filteredMessages;
         console.log('2::::', this.data.answers);
+        this.filterForUrl();
       });
   }
 
   getFilteredAnswers(answers, message_id) {
     return answers.filter((answer) => {
-      console.log(answer.message_id, '   ', message_id);
-
       return answer.message_id == message_id;
     });
   }
@@ -264,14 +253,11 @@ export class BackendService implements OnInit {
     this.file = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
-
     reader.onload = (_event) => {
       this.url = reader.result;
       console.log(reader.result)
     };
-
     console.log(this.file.name);
-
     this.addData();
   }
 
@@ -296,6 +282,13 @@ export class BackendService implements OnInit {
   }
 
   filterForUrl() {
+    if (this.threadOpened) {
+      this.data.answers.forEach((answer) => {
+        if (answer.url) {
+          this.getData(answer.url)
+        }
+      })
+    }
     if (this.mainChatOpen) {
       this.data.messages.forEach((message) => {
         if (message.url) {
@@ -309,8 +302,8 @@ export class BackendService implements OnInit {
         }
       })
     }
-
   }
+
   async getData(picName) {
     const storage = getStorage();
     await getDownloadURL(ref(storage, 'image/' + picName))

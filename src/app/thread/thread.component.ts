@@ -27,7 +27,7 @@ export class ThreadComponent implements OnInit {
 
   message: string[] = [];
   defaultValue: string = '';
-  constructor(private firestore: Firestore, public backend: BackendService) {}
+  constructor(private firestore: Firestore, public backend: BackendService) { }
 
   ngOnInit(): void {
     this.currentMessage = this.backend.data.channelMessages.filter(
@@ -44,6 +44,12 @@ export class ThreadComponent implements OnInit {
     this.backend.saveAnswer(message, this.message_id);
     this.defaultValue = '';
   }
+  getUrl(url) {
+    if (this.backend.allFiles[url]) {
+      return this.backend.allFiles[url];
+    }
+  }
+  
   getDate() {
     let date = new Date(this.basedMessage.time);
     var months = [
@@ -71,4 +77,5 @@ export class ThreadComponent implements OnInit {
 
     return formattedDate;
   }
+
 }

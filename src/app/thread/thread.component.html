@@ -12,18 +12,22 @@
     <div class="main">
         <div style="overflow-y: scroll; height: 100%;">
             <mat-card class="m-3 positioning" style="background-color: #3f51b5">
-                <div style="margin-right: 150px;">
+                <div>
                     <mat-card-title>{{basedMessage.from}}</mat-card-title>
                     <mat-card-subtitle>{{getDate()}}</mat-card-subtitle>
+                    <div><img class="thread-pic" [src]="getUrl(basedMessage.url)" *ngIf="basedMessage.url"></div>
+                    <!-- load Picture if there -->
                     <mat-card-content>{{basedMessage.message}}</mat-card-content>
                 </div>
             </mat-card>
             <mat-divider></mat-divider>
             <div *ngFor="let message of backend.data.answers">
                 <mat-card class="m-3 positioning m-l-8 " style="background-color: #3f51b5; opacity: 0.8;">
-                    <div style="margin-right: 150px;">
+                    <div>
                         <mat-card-title>{{message.from}}</mat-card-title>
                         <mat-card-subtitle>{{getDate()}}</mat-card-subtitle>
+                        <!-- Place for picture -->
+                        <div><img class="thread-pic" [src]="getUrl(message.url)" *ngIf="message.url"></div>
                         <mat-card-content>{{message.message}}</mat-card-content>
                     </div>
                 </mat-card>
@@ -34,13 +38,16 @@
 
         <div class="max-width" style="display: flex; margin: 1rem;">
             <button (click)="file.click()" mat-icon-button>
-                <input type="file" accept="image/*" #file style="position: fixed; top: -100em;">
+                <input (change)="backend.chooseFile($event)" type="file" accept="image/*" #file
+                    style="position: fixed; top: -100em;">
                 <mat-icon>photo_camera</mat-icon>
             </button>
             <form>
-                <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto" cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
+                <textarea [(ngModel)]="defaultValue" name="first" type="text" #textarea class="form-control me-auto"
+                    cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
                 </textarea>
             </form>
+            <div><img class="little-pic" [src]="backend.url" *ngIf="backend.url"></div> <!-- Picture for Posting -->
             <button (click)="showMessage(textarea.value)" type="submit" mat-icon-button>
                 <mat-icon>send</mat-icon>
             </button>

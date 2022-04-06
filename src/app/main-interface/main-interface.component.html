@@ -14,14 +14,15 @@
                     (buttonClicked)="openThread($event)"></app-main-chat>
             </div>
             <div *ngIf="backend.directChatOpen">
-                <app-main-chat *ngFor="let chat of backend.currentChatroom.messages" [chat] ="chat"></app-main-chat>
+                <app-main-chat *ngFor="let chat of backend.currentChatroom.messages" [chat]="chat"></app-main-chat>
             </div>
 
             <app-main-content></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
-        <mat-drawer class="thread-right" mode="side" opened={{threadOpened}}>
-            <app-thread [message_id]="message_id" [basedMessage]="basedMessage" (buttonClicked)="closeThread()"></app-thread>
+        <mat-drawer class="thread-right" mode="side" opened={{backend.threadOpened}}>
+            <app-thread [message_id]="message_id" [basedMessage]="basedMessage" (buttonClicked)="closeThread()">
+            </app-thread>
         </mat-drawer>
     </mat-drawer-container>
 </div>

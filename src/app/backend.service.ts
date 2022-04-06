@@ -5,6 +5,7 @@ import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
 import {
   Storage,
   ref,
+  getStorage,
   uploadBytesResumable,
   getDownloadURL,
 } from '@angular/fire/storage'; //for storage
@@ -19,6 +20,7 @@ export class BackendService implements OnInit {
   mainChatOpen = false;
   directChatOpen = false;
   file: any = {};
+  allFiles: any = {};
   url: any = '';
   chatroom!: Chatroom;
   loggedInUser = {
@@ -74,7 +76,7 @@ export class BackendService implements OnInit {
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
-  // get the actual channel
+  // get the actual channel 
   async checkFirebaseContainsChatroom(id) {
     this.chatroomExists = [];
     await this.getFromFirestore('messages', 'messages');
@@ -133,7 +135,8 @@ export class BackendService implements OnInit {
 
   saveDirectMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let messageObj = new Message(name, message, this.currentChatroom.id, 1);
+    let url = this.url ? this.url : '';
+    let messageObj = new Message(name, message, this.currentChatroom.id, 1, url);
     this.currentChatroom.messages.push(messageObj.toJson());
     this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom.messages;
     this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex],
@@ -141,13 +144,16 @@ export class BackendService implements OnInit {
   }
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let messageObj = new Message(name, message, this.currentChannelId, this.loggedInUser.id);
+    let url = this.file.name ? this.file.name : '';
+    let messageObj = new Message(name, message, this.currentChannelId, this.loggedInUser.id, url);
     this.createInFirestore('messages', messageObj.toJson());
+    this.url = '';
   }
   saveAnswer(message: string, message_id: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let answerObj = new Answer(name, message, message_id);
     this.createInFirestore('answers', answerObj.toJson());
+    this.url = '';
   }
 
   // save the actual channel and update it to firestore
@@ -209,6 +215,7 @@ export class BackendService implements OnInit {
       .subscribe((channels: any) => {
         console.log('channels', channels);
         this.data[dataToChange as keyof typeof this.data] = channels;
+        this.filterForUrl();
       });
   }
 
@@ -257,18 +264,20 @@ export class BackendService implements OnInit {
 
     reader.onload = (_event) => {
       this.url = reader.result;
+      console.log(reader.result)
     };
 
     console.log(this.file.name);
+
     this.addData();
   }
 
   //Save file in Firebase Storage
 
-  addData() {
-    const storageRef = ref(this.storage, this.file.name);
+  async addData() {
+    const storageRef = ref(this.storage, 'image/' + this.file.name);
     const uploadTask = uploadBytesResumable(storageRef, this.file);
-    uploadTask.on(
+    await uploadTask.on(
       'state_changed',
       (snapshot) => {
         const progress =
@@ -281,5 +290,23 @@ export class BackendService implements OnInit {
         });
       }
     );
+  }
+
+  filterForUrl() {
+    this.data.messages.forEach((message) => {
+      if (message.url) {
+        this.getData(message.url)
+      }
+    })
+  }
+
+  async getData(picName) {
+    const storage = getStorage();
+    await getDownloadURL(ref(storage, 'image/' + picName))
+      .then((url) => {
+        this.allFiles[picName] = url;
+        // `url` is the download URL for 'images/stars.jpg'
+        console.log(this.allFiles)
+      })
   }
 }

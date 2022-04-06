@@ -21,7 +21,6 @@ export class MainChatComponent implements OnInit {
   openThread(id: string) {
     this.backend.data.answers = [];
     this.buttonClicked.emit(id);
-    console.log('data is', this.backend.data)
   }
 
   // getMessageImageSource() {
@@ -36,7 +35,7 @@ export class MainChatComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    console.log('hier die Nachricht: ', this.message);
+
     // this.userImageSource = this.getMessageImageSource();
   }
   getDate() {
@@ -71,5 +70,12 @@ export class MainChatComponent implements OnInit {
       day + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
 
     return formattedDate;
+  }
+
+  getUrl(url) {
+    if (this.backend.allFiles[url]) {
+      return this.backend.allFiles[url];
+    }
+
   }
 }

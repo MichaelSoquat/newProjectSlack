@@ -1,6 +1,6 @@
 <!-- MAIN CHANNELS -->
 <div *ngIf="backend.mainChatOpen" class="main-chat-container">
-    <img src="assets/img/profile_pic.png">
+    <img class="user-img" src="assets/img/profile_pic.png">
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{message.from}}</h2>
@@ -18,7 +18,7 @@
 <!-- DIRECT MESSAGES -->
 
 <div *ngIf="backend.directChatOpen" class="main-chat-container">
-    <img src="assets/img/profile_pic.png">
+    <img class="user-img" src="assets/img/profile_pic.png">
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{chat.from}}</h2>

@@ -86,11 +86,9 @@ export class BackendService implements OnInit {
       setTimeout(() => {
         this.getFromFirestore('chatroom', 'chatroom');
         this.chatroomAlreadyThere(id);
-
       }, 250)
       this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
     }
-    console.log('currentChatroom is', this.currentChatroom)
   }
 
   //if chatroom is already there

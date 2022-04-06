@@ -86,9 +86,11 @@ export class BackendService implements OnInit {
       setTimeout(() => {
         this.getFromFirestore('chatroom', 'chatroom');
         this.chatroomAlreadyThere(id);
+
       }, 250)
       this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
     }
+    console.log('currentChatroom is', this.currentChatroom)
   }
 
   //if chatroom is already there
@@ -99,8 +101,10 @@ export class BackendService implements OnInit {
         this.chatroomExists = this.data.chatroom[i];
         this.currentChatroom = this.chatroomExists;
         this.currentChatroomIndex = i;
+        console.log('currentChatroom is', this.currentChatroom)
       }
     }
+    console.log('currentChatroom is', this.currentChatroom)
   }
 
   getCurrentChannel(id: any) {
@@ -135,12 +139,13 @@ export class BackendService implements OnInit {
 
   saveDirectMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
-    let url = this.url ? this.url : '';
+    let url = this.file.name ? this.file.name : '';
     let messageObj = new Message(name, message, this.currentChatroom.id, 1, url);
     this.currentChatroom.messages.push(messageObj.toJson());
     this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom.messages;
     this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex],
       this.currentChatroom.id)
+    this.url = '';
   }
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
@@ -293,20 +298,28 @@ export class BackendService implements OnInit {
   }
 
   filterForUrl() {
-    this.data.messages.forEach((message) => {
-      if (message.url) {
-        this.getData(message.url)
-      }
-    })
-  }
+    if (this.mainChatOpen) {
+      this.data.messages.forEach((message) => {
+        if (message.url) {
+          this.getData(message.url)
+        }
+      })
+    } else if (this.directChatOpen && this.currentChatroom.messages) {
+      this.currentChatroom.messages.forEach((message) => {
+        if (message.url) {
+          this.getData(message.url)
+        }
+      })
+    }
 
+  }
   async getData(picName) {
     const storage = getStorage();
     await getDownloadURL(ref(storage, 'image/' + picName))
       .then((url) => {
         this.allFiles[picName] = url;
         // `url` is the download URL for 'images/stars.jpg'
-        console.log(this.allFiles)
+        console.log('allFiles are', this.allFiles)
       })
   }
 }

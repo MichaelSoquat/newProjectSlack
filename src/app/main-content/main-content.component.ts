@@ -27,12 +27,5 @@ export class MainContentComponent implements OnInit {
       this.backend.saveDirectMessage(textarea.value)
 
     }
-
-  }
-
-
-
-  click(value: any) {
-    console.log(value);
   }
 }

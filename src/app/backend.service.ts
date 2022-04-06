@@ -1,6 +1,6 @@
 import { Message } from '../models/message.js';
 import { Answer } from '../models/answer.js';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, Input, OnInit } from '@angular/core';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
 import {
   Storage,
@@ -249,6 +249,11 @@ export class BackendService implements OnInit {
   //Select file name
 
   chooseFile(event: any) {
+    if (event.path.length >15) {
+      console.log('we are in thread')               //importent for checking if pic chosen from mainchat or thread!!!
+    }
+
+    console.log('even is', event)
     console.log(this.file);
     this.file = event.target.files[0];
     var reader = new FileReader();

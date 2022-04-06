@@ -1,7 +1,7 @@
 <div class="main-container">
 
     <button (click)="file.click()" mat-icon-button>
-        <input (change)="backend.chooseFile($event)" type="file" accept="image/*" #file
+        <input class="pseudoclass" (change)="backend.chooseFile($event)" type="file" accept="image/*" #file
             style="position: fixed; top: -100em;">
         <mat-icon>photo_camera</mat-icon>
     </button>

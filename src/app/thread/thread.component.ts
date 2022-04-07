@@ -34,6 +34,7 @@ export class ThreadComponent implements OnInit {
   showMessage(message: any) {
     this.backend.saveAnswer(message, this.message_id);
     this.defaultValue = '';
+    this.backend.file = '';
   }
 
   // get the url if any pictures are loaded in

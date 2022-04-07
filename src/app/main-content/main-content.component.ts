@@ -19,6 +19,7 @@ export class MainContentComponent implements OnInit {
    */
   pushMessage(textarea: any) {
     console.log('mainChat', this.backend.mainChatOpen, 'dM', this.backend.directChatOpen)
+    
     if (this.backend.mainChatOpen) {
       this.defaultValue = '';
       this.backend.saveMessage(textarea.value);
@@ -26,5 +27,7 @@ export class MainContentComponent implements OnInit {
       this.defaultValue = '';
       this.backend.saveDirectMessage(textarea.value)
     }
+    this.backend.file = '';
   }
+  
 }

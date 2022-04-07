@@ -345,6 +345,7 @@ export class BackendService implements OnInit {
         });
       }
     );
+    this.url = '';
   }
 
   // check if url is set, url is here the pic name
@@ -370,6 +371,7 @@ export class BackendService implements OnInit {
         }
       });
     }
+
   }
 
   /**

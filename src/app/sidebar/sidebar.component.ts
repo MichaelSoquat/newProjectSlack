@@ -12,7 +12,7 @@ import { BackendService } from '../backend.service';
 export class SidebarComponent implements OnInit {
   openChannelDropdown = true;
   openDmDropdown = true;
-
+  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore,
@@ -23,10 +23,15 @@ export class SidebarComponent implements OnInit {
     this.backend.getFromFirestore('channel', 'channels');
     this.backend.getFromFirestore('user', 'users');
   }
+
+  // open DialogComponent to add a new channel
+
   openDialogChannel() {
     const dialogRef = this.dialog.open(AddChannelDialogComponent, {
       width: '500px',
     });
+
+    //if DialogComponent and if user wants to add a new channel then save the channel
 
     dialogRef.afterClosed().subscribe((result) => {
       //Id nötig????
@@ -44,13 +49,20 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  // open/close channel dropdown 
+
   toggleChannelDropdown() {
     this.openChannelDropdown = !this.openChannelDropdown;
   }
+
+  // open/close direct message dropdown 
+
   toggleDmDropdown() {
     this.openDmDropdown = !this.openDmDropdown;
   }
-  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
+
+  // if channel gets clicked load the current channel with all data from firestore
+
   openChannel(id: string) {
     this.backend.mainChatOpen = true;
     this.backend.directChatOpen = false;
@@ -60,6 +72,9 @@ export class SidebarComponent implements OnInit {
     this.buttonClicked.emit(id); //give Id to Interface
     // Abrufen der Messages --> ID des Channels wird übergeben
   }
+
+  // if user for direct message gets clicked load the current chatroom with all data from firestore
+
   openDm(id: string) {
     this.backend.mainChatOpen = false;
     this.backend.directChatOpen = true;
@@ -68,14 +83,11 @@ export class SidebarComponent implements OnInit {
     console.log('id is', id, 'loggedInUserId', this.backend.loggedInUser.id);
 
   }
+
+  // save the channel
+
   saveChannel(channel: Object) {
     this.backend.createInFirestore('channel', channel);
   }
 }
-function channels(arg0: string, channels: any) {
-  throw new Error('Function not implemented.');
-}
 
-function users(arg0: string, users: any) {
-  throw new Error('Function not implemented.');
-}

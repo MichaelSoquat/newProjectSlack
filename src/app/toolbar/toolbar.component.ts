@@ -14,10 +14,15 @@ export class ToolbarComponent implements OnInit {
   constructor(public backend: BackendService, public firebaseService: FirebaseService) { }
   ngOnInit(): void {
   }
+
+  // open and close the sidebar
+
   openCloseSidebar() {
     this.buttonClicked.emit('clicked');
 
   }
+
+  // logout
 
   public logout() {
     this.firebaseService.logout();

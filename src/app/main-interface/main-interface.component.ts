@@ -33,6 +33,9 @@ export class MainInterfaceComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
+  // if menu got clicked => open/close sidebar
+
   isClicked(value: any) {
     this.value = value;
     if (this.open == true) {
@@ -41,6 +44,9 @@ export class MainInterfaceComponent implements OnInit {
       this.open = true;
     }
   }
+
+  // open thread
+
   openThread(id) {
     this.message_id = id;
     this.backend.threadOpened = true;
@@ -51,6 +57,9 @@ export class MainInterfaceComponent implements OnInit {
 
     this.backend.openThread(id);
   }
+
+  // close thread
+
   closeThread() {
     this.backend.threadOpened = false;
   }
@@ -60,6 +69,9 @@ export class MainInterfaceComponent implements OnInit {
   //   this.isLogout.emit()
   // }
 
+
+  // update the content in sidebar
+  
   renderContent(id: any) {
     console.log(id);
     this.firestore

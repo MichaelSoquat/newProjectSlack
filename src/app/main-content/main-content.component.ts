@@ -12,20 +12,19 @@ export class MainContentComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  /**
+   * The function is there to push the current value of textarea into the right
+   * object and save it in the right collection
+   * @param textarea this is the textfield
+   */
   pushMessage(textarea: any) {
     console.log('mainChat', this.backend.mainChatOpen, 'dM', this.backend.directChatOpen)
     if (this.backend.mainChatOpen) {
       this.defaultValue = '';
-      // this.backend.currentChannel.messages.push(textarea.value)
       this.backend.saveMessage(textarea.value);
-      //console.log(textarea.value);
-      //this.backend.saveCurrentChannel();
-
     } else if (this.backend.directChatOpen) {
       this.defaultValue = '';
-
       this.backend.saveDirectMessage(textarea.value)
-
     }
   }
 }

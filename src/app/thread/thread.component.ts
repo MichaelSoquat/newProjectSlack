@@ -11,20 +11,7 @@ export class ThreadComponent implements OnInit {
   @Output() buttonClicked = new EventEmitter<void>();
   @Input() message_id;
   @Input() basedMessage;
-
   currentMessage: any;
-
-  test = [
-    'sidaflöajasdf',
-    'asdöfiöasdifj',
-    'disaföljsdiaölf',
-    'disaföljsdiaölf',
-    'djsaiföjasdi',
-    'disaföljsdiaölf',
-    'disaföljsdiaölf',
-    'disaföljsdiaölf',
-  ];
-
   message: string[] = [];
   defaultValue: string = '';
   constructor(private firestore: Firestore, public backend: BackendService) { }
@@ -35,21 +22,30 @@ export class ThreadComponent implements OnInit {
     );
     console.log('die Aktuelle Message: ', this.currentMessage);
   }
+
+  // close the thread
+
   closeThread() {
     this.buttonClicked.emit();
   }
 
+  //show messages/answers
+
   showMessage(message: any) {
-    // this.message.push(message);
     this.backend.saveAnswer(message, this.message_id);
     this.defaultValue = '';
   }
+
+  // get the url if any pictures are loaded in
+
   getUrl(url) {
     if (this.backend.allFiles[url]) {
       return this.backend.allFiles[url];
     }
   }
-  
+
+  // show the right date/time
+
   getDate() {
     let date = new Date(this.basedMessage.time);
     var months = [

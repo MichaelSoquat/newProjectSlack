@@ -15,6 +15,7 @@ import { Chatroom } from 'src/models/chatroom.class';
   providedIn: 'root',
 })
 export class BackendService implements OnInit {
+  pictureUploadedFromMainChat = false;
   threadOpened = false;
   mainChatOpen = false;
   directChatOpen = false;
@@ -62,41 +63,60 @@ export class BackendService implements OnInit {
     chatroom: [],
     channelMessages: [],
     answers: [],
+    chatHeading: '',
   };
   chatroomExists = [];
   currentChatroomIndex = 0;
   currentChatroom: any = [];
   currentChatroomId = '';
-  ngOnInit(): void {
-    this.getFromFirestore('user', 'users')
-    this.getFromFirestore('channel', 'channels')
-  }
-  constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
-  // get the actual channel 
+  ngOnInit(): void {
+    this.getFromFirestore('user', 'users');
+    this.getFromFirestore('channel', 'channels');
+  }
+  constructor(public firestore: AngularFirestore, public storage: Storage) {}
+
+  //check if chatroom is already there
+
   async checkFirebaseContainsChatroom(id) {
     this.chatroomExists = [];
-    await this.getFromFirestore('messages', 'messages');
+    await this.getFromFirestore('chatroom', 'chatroom');
     await this.chatroomAlreadyThere(id);
+
+    this.chatroomCreate(id);
+  }
+
+  //if chatroom is already there get data to show the messages of the chatroom
+
+  chatroomAlreadyThere(id) {
+    for (
+      let i = 0;
+      i < this.data.chatroom.length ? this.data.chatroom.length : 0;
+      i++
+    ) {
+      if (
+        (this.data.chatroom[i].from_user == id ||
+          this.data.chatroom[i].from_user == this.loggedInUser.id) &&
+        (this.data.chatroom[i].to_user == id ||
+          this.data.chatroom[i].to_user == this.loggedInUser.id)
+      ) {
+        this.chatroomExists = this.data.chatroom[i];
+        this.currentChatroom = this.chatroomExists;
+        this.currentChatroomIndex = i;
+      }
+    }
+  }
+
+  //if chatroom is not there already, create a new chatroom
+
+  chatroomCreate(id) {
     if (this.chatroomExists.length == 0) {
       this.chatroom = new Chatroom(this.loggedInUser.id, id);
       setTimeout(() => {
         this.getFromFirestore('chatroom', 'chatroom');
         this.chatroomAlreadyThere(id);
-      }, 250)
-      this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
-    }
-  }
-
-  //if chatroom is already there
-  chatroomAlreadyThere(id) {
-    for (let i = 0; i < this.data.chatroom.length ? this.data.chatroom.length : 0; i++) {
-      if (((this.data.chatroom[i].from_user == id || this.data.chatroom[i].from_user == this.loggedInUser.id) &&
-        (this.data.chatroom[i].to_user == id || this.data.chatroom[i].to_user == this.loggedInUser.id))) {
-        this.chatroomExists = this.data.chatroom[i];
-        this.currentChatroom = this.chatroomExists;
-        this.currentChatroomIndex = i;
-      }
+      }, 250);
+      this.createInFirestore('chatroom', this.chatroom.toJson()); //Funktionsabbruch
     }
   }
 
@@ -109,7 +129,7 @@ export class BackendService implements OnInit {
         this.currentChannelId = id;
       }
     }
-
+    this.data.chatHeading = this.currentChannel.name;
     this.getFromFirestoreById(
       'messages',
       'channelMessages',
@@ -117,34 +137,72 @@ export class BackendService implements OnInit {
     );
   }
 
+  // open the thread and get the actual data / answers
+
   openThread(message_id) {
     this.getFromFirestoreById2('answers', 'answers', message_id);
     console.log('Right Data', this.data.answers);
   }
-  F2;
+
+  // get messages for the actual channel
+
   getChannelMessages(messages, channel_id) {
     return messages.filter((message) => {
       return message.channel_id === channel_id;
     });
   }
 
+  /**
+   * Save the direct message to the Firestore in collection chatroom
+   * @param message it's the current message to save in object new Message
+   */
+
   saveDirectMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let url = this.file.name ? this.file.name : '';
-    let messageObj = new Message(name, message, this.currentChatroom.id, 1, url);
+    let messageObj = new Message(
+      name,
+      message,
+      this.currentChatroom.id,
+      1,
+      url
+    );
     this.currentChatroom.messages.push(messageObj.toJson());
-    this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom.messages;
-    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex],
-      this.currentChatroom.id)
+    this.data.chatroom[this.currentChatroomIndex].messages =
+      this.currentChatroom.messages;
+    this.updateInFirestore(
+      'chatroom',
+      this.data.chatroom[this.currentChatroomIndex],
+      this.currentChatroom.id
+    );
     this.url = '';
   }
+
+  /**
+   * Save the message to the Firestore in collection messages
+   * @param message it's the current message to save in object new Message
+   */
+
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let url = this.file.name ? this.file.name : '';
-    let messageObj = new Message(name, message, this.currentChannelId, this.loggedInUser.id, url);
+    let messageObj = new Message(
+      name,
+      message,
+      this.currentChannelId,
+      this.loggedInUser.id,
+      url
+    );
     this.createInFirestore('messages', messageObj.toJson());
     this.url = '';
   }
+
+  /**
+   * Save the answer written in thread to the Firestore in collection answer
+   * @param message it's the current message to save in object new Answer
+   * @param message_id its the current message id to save in object new Answer
+   */
+
   saveAnswer(message: string, message_id: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let url = this.file.name ? this.file.name : '';
@@ -183,6 +241,7 @@ export class BackendService implements OnInit {
       .then((result: any) => {
         let obj = objectToSave;
         obj.id = result.id;
+
         this.updateInFirestore(category, obj, result.id);
       });
   }
@@ -240,6 +299,8 @@ export class BackendService implements OnInit {
       });
   }
 
+  // get filtered answers for the actual thread
+
   getFilteredAnswers(answers, message_id) {
     return answers.filter((answer) => {
       return answer.message_id == message_id;
@@ -249,20 +310,18 @@ export class BackendService implements OnInit {
   //Select file name
 
   chooseFile(event: any) {
-    if (event.path.length >15) {
-      console.log('we are in thread')               //importent for checking if pic chosen from mainchat or thread!!!
+    if (event.path.length < 15) {
+      console.log('we are in mainchat');
+      this.pictureUploadedFromMainChat = true; //importent for checking if pic chosen from mainchat or thread!!!
+    } else {
+      this.pictureUploadedFromMainChat = false;
     }
-
-    console.log('even is', event)
-    console.log(this.file);
     this.file = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (_event) => {
       this.url = reader.result;
-      console.log(reader.result)
     };
-    console.log(this.file.name);
     this.addData();
   }
 
@@ -286,36 +345,42 @@ export class BackendService implements OnInit {
     );
   }
 
+  // check if url is set, url is here the pic name
+
   filterForUrl() {
     if (this.threadOpened) {
       this.data.answers.forEach((answer) => {
         if (answer.url) {
-          this.getData(answer.url)
+          this.getData(answer.url);
         }
-      })
+      });
     }
     if (this.mainChatOpen) {
       this.data.messages.forEach((message) => {
         if (message.url) {
-          this.getData(message.url)
+          this.getData(message.url);
         }
-      })
+      });
     } else if (this.directChatOpen && this.currentChatroom.messages) {
       this.currentChatroom.messages.forEach((message) => {
         if (message.url) {
-          this.getData(message.url)
+          this.getData(message.url);
         }
-      })
+      });
     }
   }
 
+  /**
+   * If the name of pic is set then assign it to the url
+   * @param picName  it's the name of the pic checking in storage to get the download url
+   */
+
   async getData(picName) {
     const storage = getStorage();
-    await getDownloadURL(ref(storage, 'image/' + picName))
-      .then((url) => {
-        this.allFiles[picName] = url;
-        // `url` is the download URL for 'images/stars.jpg'
-        console.log('allFiles are', this.allFiles)
-      })
+    await getDownloadURL(ref(storage, 'image/' + picName)).then((url) => {
+      this.allFiles[picName] = url;
+      // `url` is the download URL for 'images/stars.jpg'
+      console.log('allFiles are', this.allFiles);
+    });
   }
 }

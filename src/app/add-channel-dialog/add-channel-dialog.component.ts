@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./add-channel-dialog.component.scss'],
 })
 export class AddChannelDialogComponent implements OnInit {
-  constructor(public dialogRef: MatDialogRef<AddChannelDialogComponent>) {}
+  constructor(public dialogRef: MatDialogRef<AddChannelDialogComponent>) { }
 
   channel = {
     name: '',
@@ -15,11 +15,17 @@ export class AddChannelDialogComponent implements OnInit {
   };
   name: String = '';
   isPrivate: boolean = false;
-  ngOnInit(): void {}
+  ngOnInit(): void { }
+
+
+  // checks if channel is private or not
 
   onChange(checked: boolean) {
     this.channel.isPrivate = checked;
   }
+
+  // closes the dialog if user doesnt submit
+
   onNoClick() {
     this.dialogRef.close();
   }

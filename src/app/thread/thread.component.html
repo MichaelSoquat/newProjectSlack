@@ -47,7 +47,7 @@
                     cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
                 </textarea>
             </form>
-            <div><img class="little-pic" [src]="backend.url" *ngIf="backend.url"></div> <!-- Picture for Posting -->
+            <div><img class="little-pic" [src]="backend.url" *ngIf="backend.url && !backend.pictureUploadedFromMainChat"></div> <!-- Picture for Posting -->
             <button (click)="showMessage(textarea.value)" type="submit" mat-icon-button>
                 <mat-icon>send</mat-icon>
             </button>

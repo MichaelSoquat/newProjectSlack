@@ -18,26 +18,32 @@ export class MainChatComponent implements OnInit {
   constructor(public backend: BackendService) {
   }
 
+
+  // open thread
+
   openThread(id: string) {
     this.backend.data.answers = [];
     this.buttonClicked.emit(id);
   }
 
-  getMessageImageSource() {
-    this.userName = this.message.from;
-    for (let i = 0; i < this.backend.data.users.length; i++) {
-      const user = this.backend.data.users[i];
-      if (user.name == this.userName) {
-        return user.image;
-      }
-    }
-    return "https://i.pravatar.cc/24?img=1";
-  }
+   // getMessageImageSource() {
+  //   this.userName = this.message.from;
+  //   for (let i = 0; i < this.backend.data.users.length; i++) {
+  //     const user = this.backend.data.users[i];
+  //     if (user.name == this.userName) {
+  //       return user.image;
+  //     }
+  //   }
+  //   return "https://i.pravatar.cc/24?img=1";
+  // }
 
   ngOnInit(): void {
 
-    this.userImageSource = this.getMessageImageSource();
+    // this.userImageSource = this.getMessageImageSource();
   }
+
+  // display the correct date
+
   getDate() {
     let date;
     if (this.backend.mainChatOpen) {
@@ -71,6 +77,12 @@ export class MainChatComponent implements OnInit {
 
     return formattedDate;
   }
+
+  /**
+   * if pictures are there get the url to load it from storage
+   * @param url url is here the name of the picture to get the url from storage
+   * @returns if there are files to load
+   */
 
   getUrl(url) {
     if (this.backend.allFiles[url]) {

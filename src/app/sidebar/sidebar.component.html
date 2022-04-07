@@ -36,8 +36,10 @@
 
         </div>
         <div [ngClass]="openDmDropdown ? '': 'd-none'">
-            <div *ngFor="let user of backend.data.users" class="p-l-24 clickable m-b-4" (click)="openDm(user.id)">
-                <div><img class="profil-img" [src]="user.image" alt="">{{user.name}}</div>
+            <div *ngFor="let user of backend.data.users" class="p-l-24 clickable m-b-4" (click)="openDm(user.id, user.name)">
+                <div><img class="profil-img" [src]="user.image" alt=""> {{user.name}}
+
+                </div>
 
             </div>
         </div>

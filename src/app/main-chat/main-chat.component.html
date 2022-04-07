@@ -4,9 +4,10 @@
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{message.from}}</h2>
-            <div class="time">{{getDate() }}</div>
+            <div class="time">{{getDate()}}</div>
         </div>
-        <div><img [src]="getUrl(message.url)" *ngIf="message.url"></div> <!-- load Picture if there -->
+        <div><img [src]="getUrl(message.url)" *ngIf="message.url"></div>
+        <!-- load Picture if there -->
         <div>
             <p>{{message.message}}
             </p>
@@ -24,7 +25,8 @@
             <h2>{{chat.from}}</h2>
             <div class="time">{{getDate()}}</div>
         </div>
-        <div><img [src]="getUrl(chat.url)" *ngIf="chat.url"></div> <!-- load Picture if there -->
+        <div><img [src]="getUrl(chat.url)" *ngIf="chat.url"></div>
+        <!-- load Picture if there -->
         <div>
             <p>{{chat.message}}
             </p>

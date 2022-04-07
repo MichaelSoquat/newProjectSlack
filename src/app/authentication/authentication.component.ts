@@ -31,6 +31,8 @@ export class AuthenticationComponent implements OnInit {
       this.isSignedIn = false
   }
 
+  // register
+
   async onSignup(email: string, password: string, username: string) {
     this.username = username;
     this.email = email;
@@ -39,6 +41,9 @@ export class AuthenticationComponent implements OnInit {
       this.isSignedIn = true;
     await this.createUserJson();
   }
+
+  // sign in and get user infos
+
   async onSignin(email: string, password: string) {
     await this.firebaseService.signin(email, password)
     if (this.firebaseService.isloggedIn)
@@ -54,8 +59,8 @@ export class AuthenticationComponent implements OnInit {
     this.router.navigate(['/'])  //login navigate to main side
   }
 
-
-
+  //if logout the user is not signed in anymore
+  
   handleLogout() {
     this.isSignedIn = false;
   }

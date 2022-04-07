@@ -281,8 +281,9 @@ export class BackendService implements OnInit {
       .valueChanges()
       .subscribe((messages: any) => {
         let filteredMessages = this.getChannelMessages(messages, id);
-        filteredMessages.sort((m1, m2) => m1.time > m2.time);
-        console.log('Main Messages: ', filteredMessages);
+        filteredMessages.sort((m1, m2) => {
+          return m1.time - m2.time;
+        });
         this.data[dataToChange as keyof typeof this.data] = filteredMessages;
       });
   }
@@ -293,8 +294,10 @@ export class BackendService implements OnInit {
       .valueChanges()
       .subscribe((messages: any) => {
         let filteredMessages = this.getFilteredAnswers(messages, id);
-        filteredMessages.sort((m1, m2) => m1.time > m2.time);
-        console.log('Thread Messages: ', filteredMessages);
+
+        filteredMessages.sort((m1, m2) => {
+          return m1.time - m2.time;
+        });
         this.data[dataToChange as keyof typeof this.data] = filteredMessages;
         console.log('2::::', this.data.answers);
         this.filterForUrl();

@@ -15,6 +15,7 @@ import { Chatroom } from 'src/models/chatroom.class';
   providedIn: 'root',
 })
 export class BackendService implements OnInit {
+  pictureUploadedFromMainChat = false;
   threadOpened = false;
   mainChatOpen = false;
   directChatOpen = false;
@@ -249,8 +250,11 @@ export class BackendService implements OnInit {
   //Select file name
 
   chooseFile(event: any) {
-    if (event.path.length >15) {
-      console.log('we are in thread')               //importent for checking if pic chosen from mainchat or thread!!!
+    if (event.path.length < 15) {
+      console.log('we are in thread')
+      this.pictureUploadedFromMainChat = true;             //importent for checking if pic chosen from mainchat or thread!!!
+    } else {
+      this.pictureUploadedFromMainChat = false;
     }
 
     console.log('even is', event)

@@ -11,7 +11,7 @@
 
     <div class="main">
         <div style="overflow-y: scroll; height: 100%;">
-            <mat-card class="m-3 positioning" style="background-color: #3f51b5">
+            <mat-card class="m-3 positioning" style="background-color: white">
                 <div>
                     <mat-card-title>{{basedMessage.from}}</mat-card-title>
                     <mat-card-subtitle>{{getDate()}}</mat-card-subtitle>
@@ -22,7 +22,7 @@
             </mat-card>
             <mat-divider></mat-divider>
             <div *ngFor="let message of backend.data.answers">
-                <mat-card class="m-3 positioning m-l-8 " style="background-color: #3f51b5; opacity: 0.8;">
+                <mat-card class="m-3 positioning m-l-8 " style="background-color: white; opacity: 0.8;">
                     <div>
                         <mat-card-title>{{message.from}}</mat-card-title>
                         <mat-card-subtitle>{{getDate()}}</mat-card-subtitle>

@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit {
     public dialog: MatDialog,
     public firestore: AngularFirestore,
     public backend: BackendService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.backend.getFromFirestore('channel', 'channels');
@@ -43,19 +43,19 @@ export class SidebarComponent implements OnInit {
           is_private: result.isPrivate,
           messages: [],
           writtenForm: [],
-          timeStamps: []
+          timeStamps: [],
         });
       }
     });
   }
 
-  // open/close channel dropdown 
+  // open/close channel dropdown
 
   toggleChannelDropdown() {
     this.openChannelDropdown = !this.openChannelDropdown;
   }
 
-  // open/close direct message dropdown 
+  // open/close direct message dropdown
 
   toggleDmDropdown() {
     this.openDmDropdown = !this.openDmDropdown;
@@ -66,6 +66,7 @@ export class SidebarComponent implements OnInit {
   openChannel(id: string) {
     this.backend.mainChatOpen = true;
     this.backend.directChatOpen = false;
+
     this.backend.getFromFirestore('messages', 'messages');
     console.log(id);
     this.backend.getCurrentChannel(id);
@@ -75,13 +76,13 @@ export class SidebarComponent implements OnInit {
 
   // if user for direct message gets clicked load the current chatroom with all data from firestore
 
-  openDm(id: string) {
+  openDm(id: string, name: string) {
     this.backend.mainChatOpen = false;
     this.backend.directChatOpen = true;
+    this.backend.data.chatHeading = name;
     // Abrufen der Messages --> ID des Empfängers wird übergeben
     this.backend.checkFirebaseContainsChatroom(id);
     console.log('id is', id, 'loggedInUserId', this.backend.loggedInUser.id);
-
   }
 
   // save the channel
@@ -90,4 +91,3 @@ export class SidebarComponent implements OnInit {
     this.backend.createInFirestore('channel', channel);
   }
 }
-

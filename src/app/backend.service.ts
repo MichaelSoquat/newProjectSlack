@@ -63,17 +63,18 @@ export class BackendService implements OnInit {
     chatroom: [],
     channelMessages: [],
     answers: [],
+    chatHeading: '',
   };
   chatroomExists = [];
   currentChatroomIndex = 0;
   currentChatroom: any = [];
   currentChatroomId = '';
-  ngOnInit(): void {
-    this.getFromFirestore('user', 'users')
-    this.getFromFirestore('channel', 'channels')
-  }
-  constructor(public firestore: AngularFirestore, public storage: Storage) { }
 
+  ngOnInit(): void {
+    this.getFromFirestore('user', 'users');
+    this.getFromFirestore('channel', 'channels');
+  }
+  constructor(public firestore: AngularFirestore, public storage: Storage) {}
 
   //check if chatroom is already there
 
@@ -81,15 +82,24 @@ export class BackendService implements OnInit {
     this.chatroomExists = [];
     await this.getFromFirestore('chatroom', 'chatroom');
     await this.chatroomAlreadyThere(id);
+
     this.chatroomCreate(id);
   }
 
   //if chatroom is already there get data to show the messages of the chatroom
 
   chatroomAlreadyThere(id) {
-    for (let i = 0; i < this.data.chatroom.length ? this.data.chatroom.length : 0; i++) {
-      if (((this.data.chatroom[i].from_user == id || this.data.chatroom[i].from_user == this.loggedInUser.id) &&
-        (this.data.chatroom[i].to_user == id || this.data.chatroom[i].to_user == this.loggedInUser.id))) {
+    for (
+      let i = 0;
+      i < this.data.chatroom.length ? this.data.chatroom.length : 0;
+      i++
+    ) {
+      if (
+        (this.data.chatroom[i].from_user == id ||
+          this.data.chatroom[i].from_user == this.loggedInUser.id) &&
+        (this.data.chatroom[i].to_user == id ||
+          this.data.chatroom[i].to_user == this.loggedInUser.id)
+      ) {
         this.chatroomExists = this.data.chatroom[i];
         this.currentChatroom = this.chatroomExists;
         this.currentChatroomIndex = i;
@@ -105,8 +115,8 @@ export class BackendService implements OnInit {
       setTimeout(() => {
         this.getFromFirestore('chatroom', 'chatroom');
         this.chatroomAlreadyThere(id);
-      }, 250)
-      this.createInFirestore('chatroom', this.chatroom.toJson());          //Funktionsabbruch
+      }, 250);
+      this.createInFirestore('chatroom', this.chatroom.toJson()); //Funktionsabbruch
     }
   }
 
@@ -119,7 +129,7 @@ export class BackendService implements OnInit {
         this.currentChannelId = id;
       }
     }
-
+    this.data.chatHeading = this.currentChannel.name;
     this.getFromFirestoreById(
       'messages',
       'channelMessages',
@@ -150,11 +160,21 @@ export class BackendService implements OnInit {
   saveDirectMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let url = this.file.name ? this.file.name : '';
-    let messageObj = new Message(name, message, this.currentChatroom.id, 1, url);
+    let messageObj = new Message(
+      name,
+      message,
+      this.currentChatroom.id,
+      1,
+      url
+    );
     this.currentChatroom.messages.push(messageObj.toJson());
-    this.data.chatroom[this.currentChatroomIndex].messages = this.currentChatroom.messages;
-    this.updateInFirestore('chatroom', this.data.chatroom[this.currentChatroomIndex],
-      this.currentChatroom.id)
+    this.data.chatroom[this.currentChatroomIndex].messages =
+      this.currentChatroom.messages;
+    this.updateInFirestore(
+      'chatroom',
+      this.data.chatroom[this.currentChatroomIndex],
+      this.currentChatroom.id
+    );
     this.url = '';
   }
 
@@ -166,7 +186,13 @@ export class BackendService implements OnInit {
   saveMessage(message: string) {
     let name = this.loggedInUser.name ? this.loggedInUser.name : 'Guest';
     let url = this.file.name ? this.file.name : '';
-    let messageObj = new Message(name, message, this.currentChannelId, this.loggedInUser.id, url);
+    let messageObj = new Message(
+      name,
+      message,
+      this.currentChannelId,
+      this.loggedInUser.id,
+      url
+    );
     this.createInFirestore('messages', messageObj.toJson());
     this.url = '';
   }
@@ -285,8 +311,8 @@ export class BackendService implements OnInit {
 
   chooseFile(event: any) {
     if (event.path.length < 15) {
-      console.log('we are in mainchat')
-      this.pictureUploadedFromMainChat = true;             //importent for checking if pic chosen from mainchat or thread!!!
+      console.log('we are in mainchat');
+      this.pictureUploadedFromMainChat = true; //importent for checking if pic chosen from mainchat or thread!!!
     } else {
       this.pictureUploadedFromMainChat = false;
     }
@@ -325,22 +351,22 @@ export class BackendService implements OnInit {
     if (this.threadOpened) {
       this.data.answers.forEach((answer) => {
         if (answer.url) {
-          this.getData(answer.url)
+          this.getData(answer.url);
         }
-      })
+      });
     }
     if (this.mainChatOpen) {
       this.data.messages.forEach((message) => {
         if (message.url) {
-          this.getData(message.url)
+          this.getData(message.url);
         }
-      })
+      });
     } else if (this.directChatOpen && this.currentChatroom.messages) {
       this.currentChatroom.messages.forEach((message) => {
         if (message.url) {
-          this.getData(message.url)
+          this.getData(message.url);
         }
-      })
+      });
     }
   }
 
@@ -351,11 +377,10 @@ export class BackendService implements OnInit {
 
   async getData(picName) {
     const storage = getStorage();
-    await getDownloadURL(ref(storage, 'image/' + picName))
-      .then((url) => {
-        this.allFiles[picName] = url;
-        // `url` is the download URL for 'images/stars.jpg'
-        console.log('allFiles are', this.allFiles)
-      })
+    await getDownloadURL(ref(storage, 'image/' + picName)).then((url) => {
+      this.allFiles[picName] = url;
+      // `url` is the download URL for 'images/stars.jpg'
+      console.log('allFiles are', this.allFiles);
+    });
   }
 }

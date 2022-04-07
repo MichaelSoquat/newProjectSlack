@@ -77,7 +77,7 @@ export class BackendService implements OnInit {
   // get the actual channel 
   async checkFirebaseContainsChatroom(id) {
     this.chatroomExists = [];
-    await this.getFromFirestore('messages', 'messages');
+    await this.getFromFirestore('chatroom', 'chatroom');
     await this.chatroomAlreadyThere(id);
     if (this.chatroomExists.length == 0) {
       this.chatroom = new Chatroom(this.loggedInUser.id, id);
@@ -184,6 +184,7 @@ export class BackendService implements OnInit {
       .then((result: any) => {
         let obj = objectToSave;
         obj.id = result.id;
+
         this.updateInFirestore(category, obj, result.id);
       });
   }
@@ -251,22 +252,17 @@ export class BackendService implements OnInit {
 
   chooseFile(event: any) {
     if (event.path.length < 15) {
-      console.log('we are in thread')
+      console.log('we are in mainchat')
       this.pictureUploadedFromMainChat = true;             //importent for checking if pic chosen from mainchat or thread!!!
     } else {
       this.pictureUploadedFromMainChat = false;
     }
-
-    console.log('even is', event)
-    console.log(this.file);
     this.file = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (_event) => {
       this.url = reader.result;
-      console.log(reader.result)
     };
-    console.log(this.file.name);
     this.addData();
   }
 

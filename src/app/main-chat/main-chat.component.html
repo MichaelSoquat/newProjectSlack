@@ -1,17 +1,18 @@
 <!-- MAIN CHANNELS -->
 <div *ngIf="backend.mainChatOpen" class="main-chat-container">
-    <img class="user-img" src="assets/img/profile_pic.png">
+    <img class="user-img" [src]="userImageSource">
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{message.from}}</h2>
-            <div class="time">{{getDate() }}</div>
+            <div class="time">{{getDate()}}</div>
         </div>
-        <div><img [src]="getUrl(message.url)" *ngIf="message.url"></div> <!-- load Picture if there -->
+        <div><img [src]="getUrl(message.url)" *ngIf="message.url"></div>
+        <!-- load Picture if there -->
         <div>
             <p>{{message.message}}
             </p>
         </div>
-        <button (click)="openThread(message.id)" mat-stroked-button color="primary"> Antworten</button>
+        <button mat-flat-button color="primary" (click)="openThread(message.id)">open Thread</button>
     </div>
 </div>
 
@@ -24,7 +25,8 @@
             <h2>{{chat.from}}</h2>
             <div class="time">{{getDate()}}</div>
         </div>
-        <div><img [src]="getUrl(chat.url)" *ngIf="chat.url"></div> <!-- load Picture if there -->
+        <div><img [src]="getUrl(chat.url)" *ngIf="chat.url"></div>
+        <!-- load Picture if there -->
         <div>
             <p>{{chat.message}}
             </p>

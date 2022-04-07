@@ -9,7 +9,7 @@ export class FirebaseService {
   isloggedIn = false
 
   constructor(public firebaseAuth: AngularFireAuth) {
-    
+
   }
 
   async signin(email: string, password: string) {

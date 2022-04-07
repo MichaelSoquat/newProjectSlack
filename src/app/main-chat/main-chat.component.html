@@ -1,6 +1,6 @@
 <!-- MAIN CHANNELS -->
 <div *ngIf="backend.mainChatOpen" class="main-chat-container">
-    <img class="user-img" src="assets/img/profile_pic.png">
+    <img class="user-img" [src]="userImageSource">
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{message.from}}</h2>

@@ -47,8 +47,8 @@ export class ThreadComponent implements OnInit {
 
   // show the right date/time
 
-  getDate() {
-    let date = new Date(this.basedMessage.time);
+  getDate(exactDate) {
+    let date = new Date(exactDate);
     var months = [
       'Jan',
       'Feb',

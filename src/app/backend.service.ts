@@ -112,7 +112,7 @@ export class BackendService implements OnInit {
   chatroomCreate(id) {
     if (this.chatroomExists.length == 0) {
       this.chatroom = new Chatroom(this.loggedInUser.id, id);
-      setTimeout(() => {
+      setTimeout(() => {                            //Wieso timeout statt await?
         this.getFromFirestore('chatroom', 'chatroom');
         this.chatroomAlreadyThere(id);
       }, 250);

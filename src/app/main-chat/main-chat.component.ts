@@ -26,7 +26,21 @@ export class MainChatComponent implements OnInit {
     this.buttonClicked.emit(id);
   }
 
-  ngOnInit(): void { }
+   // getMessageImageSource() {
+  //   this.userName = this.message.from;
+  //   for (let i = 0; i < this.backend.data.users.length; i++) {
+  //     const user = this.backend.data.users[i];
+  //     if (user.name == this.userName) {
+  //       return user.image;
+  //     }
+  //   }
+  //   return "https://i.pravatar.cc/24?img=1";
+  // }
+
+  ngOnInit(): void {
+
+    // this.userImageSource = this.getMessageImageSource();
+  }
 
   // display the correct date
 

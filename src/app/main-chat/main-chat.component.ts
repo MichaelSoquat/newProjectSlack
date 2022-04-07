@@ -26,7 +26,8 @@ export class MainChatComponent implements OnInit {
     this.buttonClicked.emit(id);
   }
 
-   // getMessageImageSource() {
+
+  // getMessageImageSource() {
   //   this.userName = this.message.from;
   //   for (let i = 0; i < this.backend.data.users.length; i++) {
   //     const user = this.backend.data.users[i];

@@ -1,9 +1,11 @@
 <!-- THREAD - NAME -->
 
 <div id="workspace">
-    <mat-toolbar>
-        <span>Thread ...</span>
-        <div (click)="closeThread()">Close Thread</div>
+    <mat-toolbar class="space-between">
+        <span>Thread</span>
+        <button (click)="closeThread()" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
     </mat-toolbar>
 
     <!-- DISPLAY THREAD - CONTENT -->
@@ -47,7 +49,8 @@
                     cdkTextareaAutosize #autosize="cdkTextareaAutosize" autofocus>
                 </textarea>
             </form>
-            <div><img class="little-pic" [src]="backend.url" *ngIf="backend.url && !backend.pictureUploadedFromMainChat"></div> <!-- Picture for Posting -->
+            <div><img class="little-pic" [src]="backend.url"
+                    *ngIf="backend.url && !backend.pictureUploadedFromMainChat"></div> <!-- Picture for Posting -->
             <button (click)="showMessage(textarea.value)" type="submit" mat-icon-button>
                 <mat-icon>send</mat-icon>
             </button>

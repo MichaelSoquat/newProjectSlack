@@ -31,7 +31,25 @@ export class MainInterfaceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userAlreadyHere();
 
+  }
+
+  userAlreadyHere() {
+    let userAlreadyThere = JSON.parse(localStorage.getItem('user')!)
+    if (userAlreadyThere) {
+      let checkCurrentUser = setInterval(() => {
+        for (let i = 0; i < this.backend.data.users.length; i++) {
+
+          if (userAlreadyThere.email == this.backend.data.users[i].email) {
+            this.backend.loggedInUser = this.backend.data.users[i];
+          }
+          if (this.backend.loggedInUser == this.backend.data.users[i]){
+            clearInterval(checkCurrentUser)
+          }
+        }
+      }, 100)
+    }
   }
 
   // if menu got clicked => open/close sidebar
@@ -71,7 +89,7 @@ export class MainInterfaceComponent implements OnInit {
 
 
   // update the content in sidebar
-  
+
   renderContent(id: any) {
     console.log(id);
     this.firestore

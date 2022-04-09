@@ -29,6 +29,7 @@ export class AuthenticationComponent implements OnInit {
       this.isSignedIn = true
     else
       this.isSignedIn = false
+
   }
 
   // register

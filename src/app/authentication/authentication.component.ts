@@ -59,7 +59,6 @@ export class AuthenticationComponent implements OnInit {
 
   async getUserInfos() {
     await this.backend.setTheLoggedInUser(this.email)
-    this.router.navigate(['/SlackMain'])  //login navigate to main side
   }
 
   //if logout the user is not signed in anymore

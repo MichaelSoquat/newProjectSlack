@@ -5,7 +5,7 @@ import { MainInterfaceComponent } from './main-interface/main-interface.componen
 
 const routes: Routes = [
   { path: '', component: AuthenticationComponent },
-  { path: 'SlackMain', component: MainInterfaceComponent },
+  { path: 'main', component: MainInterfaceComponent },
 
 ];
 

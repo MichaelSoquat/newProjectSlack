@@ -19,7 +19,7 @@
 <!-- DIRECT MESSAGES -->
 
 <div *ngIf="backend.directChatOpen" class="main-chat-container">
-    <img class="user-img" src="assets/img/profile_pic.png">
+    <img class="user-img" [src]="userImageSource">
     <div class="chat-text-container">
         <div class="chat-header-container">
             <h2>{{chat.from}}</h2>

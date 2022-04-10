@@ -28,13 +28,24 @@ export class MainChatComponent implements OnInit {
 
 
   getMessageImageSource() {
-    //   this.userName = this.message.from;
-    //   for (let i = 0; i < this.backend.data.users.length; i++) {
-    //     const user = this.backend.data.users[i];
-    //     if (user.name == this.userName) {
-    //       return user.image;
-    //     }
-    //   }
+    if (this.backend.mainChatOpen) {
+      this.userName = this.message.from;
+      for (let i = 0; i < this.backend.data.users.length; i++) {
+        const user = this.backend.data.users[i];
+        if (user.name == this.userName) {
+          return user.image;
+        }
+      }
+    }
+    else if (this.backend.directChatOpen) {
+      this.userName = this.chat.from;
+      for (let i = 0; i < this.backend.data.users.length; i++) {
+        const user = this.backend.data.users[i];
+        if (user.name == this.userName) {
+          return user.image;
+        }
+      }
+    }
     return "https://i.pravatar.cc/24?img=1";
   }
 
@@ -46,7 +57,7 @@ export class MainChatComponent implements OnInit {
   // display the correct date
 
   getDate() {
-    let date;
+    let date: Date;
     if (this.backend.mainChatOpen) {
       date = new Date(this.message.time);
     } else if (this.backend.directChatOpen) {
@@ -85,7 +96,7 @@ export class MainChatComponent implements OnInit {
    * @returns if there are files to load
    */
 
-  getUrl(url) {
+  getUrl(url: string | number) {
     if (this.backend.allFiles[url]) {
       return this.backend.allFiles[url];
     }

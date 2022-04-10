@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatTabGroup } from '@angular/material/tabs';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { EmailAuthCredential } from 'firebase/auth';
 import { Channel } from 'src/models/channel.class';
 import { Chatroom } from 'src/models/chatroom.class';

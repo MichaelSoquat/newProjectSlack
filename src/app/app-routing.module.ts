@@ -4,8 +4,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { MainInterfaceComponent } from './main-interface/main-interface.component';
 
 const routes: Routes = [
-  { path: 'authentication', component: AuthenticationComponent },
-  { path: '', component: MainInterfaceComponent },
+  { path: '', component: AuthenticationComponent },
+  { path: 'SlackMain', component: MainInterfaceComponent },
 
 ];
 

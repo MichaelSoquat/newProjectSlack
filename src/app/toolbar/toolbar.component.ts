@@ -27,5 +27,6 @@ export class ToolbarComponent implements OnInit {
   public logout() {
     this.firebaseService.logout();
     this.isLogout.emit();
+    localStorage.removeItem('user')
   }
 }

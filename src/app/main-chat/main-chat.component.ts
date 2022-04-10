@@ -26,17 +26,7 @@ export class MainChatComponent implements OnInit {
     this.buttonClicked.emit(id);
   }
 
-
   getMessageImageSource() {
-<<<<<<< HEAD
-      // this.userName = this.message.from;
-      // for (let i = 0; i < this.backend.data.users.length; i++) {
-      //   const user = this.backend.data.users[i];
-      //   if (user.name == this.userName) {
-      //     return user.image;
-      //   }
-      // }
-=======
     if (this.backend.mainChatOpen) {
       this.userName = this.message.from;
       for (let i = 0; i < this.backend.data.users.length; i++) {
@@ -55,7 +45,6 @@ export class MainChatComponent implements OnInit {
         }
       }
     }
->>>>>>> 918f4858967dfdcad7b21616efe672970048668b
     return "https://i.pravatar.cc/24?img=1";
   }
 

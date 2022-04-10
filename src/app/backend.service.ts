@@ -78,7 +78,6 @@ export class BackendService implements OnInit {
     this.getFromFirestore('channel', 'channels');
     this.getFromFirestore('chatroom', 'chatroom');
 
-
   }
 
   //check if chatroom is already there

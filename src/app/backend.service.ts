@@ -23,12 +23,10 @@ export class BackendService implements OnInit {
   allFiles: any = {};
   url: any = '';
   chatroom!: Chatroom;
-  loggedInUser = {
-    id: '',
+  loggedInUser: any = {
     name: '',
-    email: '',
-    image: '',
-  };
+    id: '',
+  }
   currentChannelIndex = 0;
   currentChannelId: string = '';
   currentChannel = {
@@ -70,11 +68,17 @@ export class BackendService implements OnInit {
   currentChatroom: any = [];
   currentChatroomId = '';
 
+
   ngOnInit(): void {
+
     this.getFromFirestore('user', 'users');
     this.getFromFirestore('channel', 'channels');
   }
-  constructor(public firestore: AngularFirestore, public storage: Storage) {}
+  constructor(public firestore: AngularFirestore, public storage: Storage) {
+
+
+
+  }
 
   //check if chatroom is already there
 
@@ -345,6 +349,7 @@ export class BackendService implements OnInit {
         });
       }
     );
+
   }
 
   // check if url is set, url is here the pic name
@@ -370,6 +375,7 @@ export class BackendService implements OnInit {
         }
       });
     }
+
   }
 
   /**

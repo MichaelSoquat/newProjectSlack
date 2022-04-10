@@ -2,9 +2,9 @@
     <!-- TOOLBAR -->
     <app-toolbar (buttonClicked)="isClicked($event)"></app-toolbar>
     <!-- SIDENAV -->
-    <mat-drawer-container class="sidenav-container">
+    <mat-drawer-container  class="sidenav-container">
         <!-- SIDENAV-CONTENT -->
-        <mat-drawer mode="side" opened *ngIf="open">
+        <mat-drawer position="start" mode="side" opened *ngIf="open">
             <app-sidebar (buttonClicked)="renderContent($event)"></app-sidebar>
         </mat-drawer>
         <!-- MAIN-CONTENT -->
@@ -23,7 +23,7 @@
             <app-main-content></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
-        <mat-drawer class="thread-right" mode="side" opened={{backend.threadOpened}}>
+        <mat-drawer class="thread-right" position="end" mode="side" opened={{backend.threadOpened}}>
             <app-thread [message_id]="message_id" [basedMessage]="basedMessage" (buttonClicked)="closeThread()">
             </app-thread>
         </mat-drawer>

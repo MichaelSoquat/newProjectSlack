@@ -34,6 +34,7 @@ export class ThreadComponent implements OnInit {
   showMessage(message: any) {
     this.backend.saveAnswer(message, this.message_id);
     this.defaultValue = '';
+    this.backend.file = '';
   }
 
   // get the url if any pictures are loaded in
@@ -46,8 +47,8 @@ export class ThreadComponent implements OnInit {
 
   // show the right date/time
 
-  getDate() {
-    let date = new Date(this.basedMessage.time);
+  getDate(exactDate) {
+    let date = new Date(exactDate);
     var months = [
       'Jan',
       'Feb',

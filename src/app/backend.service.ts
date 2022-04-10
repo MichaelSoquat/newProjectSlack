@@ -1,6 +1,6 @@
 import { Message } from '../models/message.js';
 import { Answer } from '../models/answer.js';
-import { Injectable, Input, OnInit, ɵɵclassMapInterpolate1 } from '@angular/core';
+import { Injectable, Input, OnInit } from '@angular/core';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
 import {
   Storage,
@@ -26,8 +26,6 @@ export class BackendService implements OnInit {
   loggedInUser: any = {
     name: '',
     id: '',
-    email: '',
-    image: ''
   }
   currentChannelIndex = 0;
   currentChannelId: string = '';
@@ -73,11 +71,12 @@ export class BackendService implements OnInit {
 
   ngOnInit(): void {
 
-    this.getFromFirestore('user', 'users');
-    this.getFromFirestore('channel', 'channels');
+
   }
   constructor(public firestore: AngularFirestore, public storage: Storage) {
-
+    this.getFromFirestore('user', 'users');
+    this.getFromFirestore('channel', 'channels');
+    this.getFromFirestore('chatroom', 'chatroom');
 
 
   }
@@ -87,9 +86,7 @@ export class BackendService implements OnInit {
   async checkFirebaseContainsChatroom(id) {
     this.chatroomExists = [];
     await this.getFromFirestore('chatroom', 'chatroom');
-    console.log(this.data.chatroom)
     await this.chatroomAlreadyThere(id);
-
     this.chatroomCreate(id);
   }
 
@@ -102,17 +99,11 @@ export class BackendService implements OnInit {
       i++
     ) {
       if (
-        (this.data.chatroom[i].from_user == id ||
-          this.data.chatroom[i].from_user == this.loggedInUser.id) &&
-        (this.data.chatroom[i].to_user == id ||
-          this.data.chatroom[i].to_user == this.loggedInUser.id)
-          
+        (this.data.chatroom[i].from_user == id &&
+          this.data.chatroom[i].to_user == this.loggedInUser.id) ||
+        (this.data.chatroom[i].to_user == id &&
+          this.data.chatroom[i].from_user == this.loggedInUser.id)
       ) {
-        console.log('from user gleich id', this.data.chatroom[i].from_user == id)
-        console.log('from user gleich logged id', this.data.chatroom[i].from_user == this.loggedInUser.id)
-        console.log('to user gleich id', this.data.chatroom[i].to_user == id)
-        console.log('to user gleich logged id', this.data.chatroom[i].to_user == this.loggedInUser.id)
-        console.log('its true')
         this.chatroomExists = this.data.chatroom[i];
         this.currentChatroom = this.chatroomExists;
         this.currentChatroomIndex = i;
@@ -123,7 +114,6 @@ export class BackendService implements OnInit {
   //if chatroom is not there already, create a new chatroom
 
   chatroomCreate(id) {
-    console.log('chatroom exists', this.chatroomExists)
     if (this.chatroomExists.length == 0) {
       this.chatroom = new Chatroom(this.loggedInUser.id, id);
       setTimeout(() => {                            //Wieso timeout statt await?

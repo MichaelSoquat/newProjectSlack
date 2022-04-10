@@ -36,7 +36,7 @@ export class MainInterfaceComponent implements OnInit {
   }
 
   userAlreadyHere() {
-    let userAlreadyThere = JSON.parse(localStorage.getItem('user')!)
+    let userAlreadyThere = JSON.parse(localStorage.getItem('user'))
     if (userAlreadyThere) {
       let checkCurrentUser = setInterval(() => {
         for (let i = 0; i < this.backend.data.users.length; i++) {

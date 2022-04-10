@@ -38,8 +38,9 @@ export class AuthenticationComponent implements OnInit {
     this.username = username;
     this.email = email;
     await this.firebaseService.signup(email, password)
-    if (this.firebaseService.isloggedIn)
-      this.isSignedIn = true;
+    // if (this.firebaseService.isloggedIn)
+    //   this.isSignedIn = true;
+    console.log('you are now signed up');
     await this.createUserJson();
   }
 
@@ -61,7 +62,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   //if logout the user is not signed in anymore
-  
+
   handleLogout() {
     this.isSignedIn = false;
   }

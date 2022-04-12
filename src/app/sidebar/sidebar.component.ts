@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddChannelDialogComponent } from '../add-channel-dialog/add-channel-dialog.component';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
@@ -12,18 +12,34 @@ import { BackendService } from '../backend.service';
 export class SidebarComponent implements OnInit {
   openChannelDropdown = true;
   openDmDropdown = true;
+  public screenWidth: any;
+
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore,
     public backend: BackendService
-  ) {}
+  ) { }
+
 
   ngOnInit(): void {
     this.backend.getFromFirestore('channel', 'channels');
     this.backend.getFromFirestore('user', 'users');
+    this.screenWidth = window.innerWidth;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.screenWidth = window.innerWidth;
+    console.log(this.screenWidth)
+    this.checkIfWindowTooSmall();
+  }
+
+  checkIfWindowTooSmall() {
+    if(this.screenWidth <= 860) {
+      this.backend.open = false;
+    }
+  }
   // open DialogComponent to add a new channel
 
   openDialogChannel() {

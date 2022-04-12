@@ -19,6 +19,7 @@ export class BackendService implements OnInit {
   threadOpened = false;
   mainChatOpen = false;
   directChatOpen = false;
+  open = true;
   file: any = {};
   allFiles: any = {};
   url: any = '';

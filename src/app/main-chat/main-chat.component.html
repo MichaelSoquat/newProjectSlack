@@ -6,7 +6,7 @@
             <h2>{{message.from}}</h2>
             <div class="time">{{getDate()}}</div>
         </div>
-        <div><img [src]="getUrl(message.url)" *ngIf="message.url"></div>
+        <div><img class="loaded-pictures" [src]="getUrl(message.url)" *ngIf="message.url"></div>
         <!-- load Picture if there -->
         <div>
             <p>{{message.message}}
@@ -25,7 +25,7 @@
             <h2>{{chat.from}}</h2>
             <div class="time">{{getDate()}}</div>
         </div>
-        <div><img [src]="getUrl(chat.url)" *ngIf="chat.url"></div>
+        <div><img class="loaded-pictures" [src]="getUrl(chat.url)" *ngIf="chat.url"></div>
         <!-- load Picture if there -->
         <div>
             <p>{{chat.message}}

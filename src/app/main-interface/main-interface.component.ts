@@ -15,7 +15,7 @@ export class MainInterfaceComponent implements OnInit {
 
   basedMessage = {};
 
-  open = true;
+  
   value: string = '';
   messages = [];
   //? Gedanke dahinter
@@ -56,10 +56,10 @@ export class MainInterfaceComponent implements OnInit {
 
   isClicked(value: any) {
     this.value = value;
-    if (this.open == true) {
-      this.open = false;
+    if (this.backend.open == true) {
+      this.backend.open = false;
     } else {
-      this.open = true;
+      this.backend.open = true;
     }
   }
 
@@ -81,12 +81,6 @@ export class MainInterfaceComponent implements OnInit {
   closeThread() {
     this.backend.threadOpened = false;
   }
-
-  // logout(){
-  //   this.firebaseService.logout();
-  //   this.isLogout.emit()
-  // }
-
 
   // update the content in sidebar
 

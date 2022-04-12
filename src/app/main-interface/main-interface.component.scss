@@ -6,6 +6,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    
 }
 
 .isMobile .toolbar {
@@ -27,3 +28,9 @@
 app-main-chat {
     overflow-y: scroll;
 }
+
+mat-drawer-content {
+    height: calc(100vh - 64px - 74px);
+}
+
+

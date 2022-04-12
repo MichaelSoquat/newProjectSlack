@@ -54,7 +54,7 @@ export class FirebaseService {
   // logout
 
   logout() {
-    this.firebaseAuth.signOut();
-    localStorage.removeItem('user')
+    // this.firebaseAuth.signOut();
+    // localStorage.removeItem('user')
   }
 }

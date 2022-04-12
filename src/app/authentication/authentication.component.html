@@ -22,13 +22,13 @@
                             <mat-icon matSuffix>lock</mat-icon>
                         </mat-form-field>
                         <mat-checkbox>Remember Me!</mat-checkbox>
-                        <button routerLink="/main" mat-raised-button color="primary" class="login-button" (click)="onSignin(emailSignin.value, passwordSignin.value)">
+                        <button mat-raised-button color="primary" class="login-button" (click)="onSignin(emailSignin.value, passwordSignin.value)">
                             Sign In
                         </button>
 
-                        <button mat-raised-button class="login-button">
+                        <!-- <button mat-raised-button class="login-button">
                             Login with Google
-                        </button>
+                        </button> -->
                     </form>
                 </mat-card-content>
             </mat-tab>
@@ -50,7 +50,7 @@
                             <mat-icon matSuffix>email</mat-icon>
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput placeholder="Password" type="text" #passwordSignup required minlength="6"
+                            <input matInput placeholder="Password" type="password" #passwordSignup required minlength="6"
                                 name="password" ngModel #password="ngModel">
                             <mat-error *ngIf="password.errors && password.errors?.['required']">
                                 Password is required

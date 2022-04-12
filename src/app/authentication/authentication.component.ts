@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { EmailAuthCredential } from 'firebase/auth';
@@ -15,22 +15,25 @@ import { FirebaseService } from '../services/firebase.service';
   styleUrls: ['./authentication.component.scss']
 })
 export class AuthenticationComponent implements OnInit {
-
+  @Input() signupTrue: boolean = false;
   user!: User;
   chatroom!: Chatroom;
   isSignedIn = false;
+  isSignedUp = false;
   email: string = '';
   password: string = '';
   username: any;
 
-  constructor(private router: Router, public backend: BackendService, public firebaseService: FirebaseService) { }
+
+
+
+  constructor(private router: Router, public backend: BackendService, public firebaseService: FirebaseService) {this.signupTrue }
 
   ngOnInit(): void {
     if (localStorage.getItem('user') !== null)
       this.isSignedIn = true
     else
       this.isSignedIn = false
-
   }
 
   // register
@@ -39,9 +42,8 @@ export class AuthenticationComponent implements OnInit {
     this.username = username;
     this.email = email;
     await this.firebaseService.signup(email, password)
-    // if (this.firebaseService.isloggedIn)
-    //   this.isSignedIn = true;
-    console.log('you are now signed up');
+    alert('you are now signed up');
+    this.isSignedUp =true;
     await this.createUserJson();
   }
 

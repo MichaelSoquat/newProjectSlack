@@ -34,9 +34,6 @@ import { ThreadComponent } from './thread/thread.component';
 import { MainChatComponent } from './main-chat/main-chat.component';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

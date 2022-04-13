@@ -6,7 +6,6 @@ import { MainInterfaceComponent } from './main-interface/main-interface.componen
 const routes: Routes = [
   { path: '', component: AuthenticationComponent },
   { path: 'main', component: MainInterfaceComponent },
-
 ];
 
 @NgModule({

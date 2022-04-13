@@ -19,7 +19,6 @@ export class ToolbarComponent implements OnInit {
 
   openCloseSidebar() {
     this.buttonClicked.emit('clicked');
-
   }
 
   // logout
@@ -27,6 +26,5 @@ export class ToolbarComponent implements OnInit {
   public logout() {
     this.firebaseService.logout();
     this.isLogout.emit();
-    localStorage.removeItem('user')
   }
 }

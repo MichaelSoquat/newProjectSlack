@@ -1,7 +1,7 @@
-<div *ngIf="!isSignedIn" class="login-page">
+<div class="login-page">
     <mat-card class="mat-elevation-z12">
         <mat-card-title style="text-align:center;">SignIn/SignUp</mat-card-title>
-        <mat-tab-group mat-stretch-tabs class="example-stretched-tabs" #tabGroup>
+        <mat-tab-group mat-stretch-tabs class="example-stretched-tabs" [(selectedIndex)]="tabIndex.index">
             <mat-tab label="Sign In">
                 <mat-card-content>
                     <form action="">
@@ -36,7 +36,7 @@
                 <mat-card-content>
                     <form action="">
                         <mat-form-field>
-                            <input #userSignup matInput placeholder="User Name" required name="username" ngModel
+                            <input #userSignup matInput placeholder="User Name" required name="username" minlength="6" ngModel
                                 #username="ngModel">
                             <mat-icon matSuffix>perm_identity</mat-icon>
                             <mat-error *ngIf="username.invalid">
@@ -69,7 +69,7 @@
                             </mat-error>
                             <mat-icon matSuffix>lock</mat-icon>
                         </mat-form-field>
-                        <a mat-raised-button color="primary" class="login-button" (click)="onSignup(emailSignup.value, passwordSignup.value, userSignup.value); tabGroup.selectedIndex=0">
+                        <a mat-raised-button color="primary" class="login-button" (click)="onSignup(emailSignup.value, passwordSignup.value, userSignup.value)">
                             Sign Up
                         </a>
                     </form>
@@ -78,5 +78,5 @@
         </mat-tab-group>
     </mat-card>
 </div>
-<app-toolbar *ngIf="isSignedIn" (isLogout)="handleLogout()"></app-toolbar>
+<!-- <app-toolbar *ngIf="isSignedIn" (isLogout)="handleLogout()"></app-toolbar> -->
 

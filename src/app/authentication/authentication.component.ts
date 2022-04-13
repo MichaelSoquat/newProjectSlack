@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { EmailAuthCredential } from 'firebase/auth';
@@ -6,8 +6,8 @@ import { Channel } from 'src/models/channel.class';
 import { Chatroom } from 'src/models/chatroom.class';
 import { User } from 'src/models/user.class';
 import { BackendService } from '../backend.service';
+import { TabIndex } from '../interface/TabIndex.interface';
 import { FirebaseService } from '../services/firebase.service';
-
 
 @Component({
   selector: 'app-authentication',
@@ -23,13 +23,13 @@ export class AuthenticationComponent implements OnInit {
   email: string = '';
   password: string = '';
   username: any;
-
-
-
+  tabIndex: TabIndex = {index: 0};
 
   constructor(private router: Router, public backend: BackendService, public firebaseService: FirebaseService) {this.signupTrue }
 
   ngOnInit(): void {
+    console.log();
+
     if (localStorage.getItem('user') !== null)
       this.isSignedIn = true
     else
@@ -41,8 +41,7 @@ export class AuthenticationComponent implements OnInit {
   async onSignup(email: string, password: string, username: string) {
     this.username = username;
     this.email = email;
-    await this.firebaseService.signup(email, password)
-    alert('you are now signed up');
+    await this.firebaseService.signup(email, password, this.tabIndex)
     this.isSignedUp =true;
     await this.createUserJson();
   }

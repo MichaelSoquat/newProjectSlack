@@ -33,6 +33,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ThreadComponent } from './thread/thread.component';
 import { MainChatComponent } from './main-chat/main-chat.component';
 import { provideStorage, getStorage } from '@angular/fire/storage';
+import { DialogExampleComponent } from './dialog-example/dialog-example.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,9 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
     AddChannelDialogComponent,
     ThreadComponent,
     MainChatComponent,
+    DialogExampleComponent,
   ],
+  entryComponents: [DialogExampleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

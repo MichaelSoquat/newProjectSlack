@@ -3,16 +3,17 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { BackendService } from '../backend.service';
 import { Router } from '@angular/router';
 import { TabIndex } from '../interface/TabIndex.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogExampleComponent } from '../dialog-example/dialog-example.component';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class FirebaseService {
-  signupTrue:boolean;
   isloggedIn = false
   constructor(public firebaseAuth: AngularFireAuth,
-    public backend: BackendService, private router: Router) {
+    public backend: BackendService, private router: Router,  public dialog: MatDialog,) {
   }
 
   async signin(email: string, password: string) {
@@ -27,12 +28,9 @@ export class FirebaseService {
         var errorMessage = error.message;
         if (errorCode === 'auth/wrong-password') {
           alert('Wrong password.');
-          this.signupTrue = false;
         } else {
           alert(errorMessage);
-          this.signupTrue = false;
         }
-        this.signupTrue = false;
         console.log(error);
       });}
 
@@ -43,13 +41,13 @@ export class FirebaseService {
       .then(response => {
         this.isloggedIn = true;
         localStorage.setItem('user', JSON.stringify(response.user))
-        this.signupTrue = true;
         alert('you are now signed up');
         tabIndex.index = 0;
       }).catch(function(error) {// Handle Errors here.
         var errorMessage = error.message;
         alert(errorMessage);
         console.log(error);
+        this.dialog.open(DialogExampleComponent);
   });}
 
   // logout

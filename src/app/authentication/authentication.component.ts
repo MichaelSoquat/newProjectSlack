@@ -9,6 +9,7 @@ import { BackendService } from '../backend.service';
 import { TabIndex } from '../interface/TabIndex.interface';
 import { FirebaseService } from '../services/firebase.service';
 
+
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',

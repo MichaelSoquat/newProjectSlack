@@ -3,17 +3,17 @@
     <app-toolbar (buttonClicked)="isClicked($event)"></app-toolbar>
 
     <!-- SIDENAV -->
-    <mat-drawer-container [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="sidenav-container">
+    <mat-drawer-container [ngClass]="backend.mobileMode ? 'mobile-mode' : 'sidenav-container'" class="sidenav-container">
         <!-- SIDENAV-CONTENT -->
-        <mat-drawer [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="sidenav-container" position="start"
+        <mat-drawer [ngClass]="backend.mobileMode ? 'mobile-mode' : 'sidenav-container'" class="sidenav-container" position="start"
             mode="side" opened *ngIf="backend.open">
             <app-sidebar (buttonClicked)="renderContent($event)"></app-sidebar>
         </mat-drawer>
         <!-- MAIN-CONTENT -->
 
-        <mat-drawer-content [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="sidenav-container">
+        <mat-drawer-content [ngClass]="backend.mobileMode ? 'mobile-mode' : 'sidenav-container'" class="sidenav-container">
 
-            <div [ngClass]="backend.mobileMode ? 'mobile-mode' : ''">
+            <div [ngClass]="backend.mobileMode ? 'mobile-mode' : 'sidenav-container'">
 
                 <div *ngIf="backend.mainChatOpen && !backend.mobileMode">
                     <app-main-chat *ngFor="let message of backend.data.channelMessages" [message]="message"

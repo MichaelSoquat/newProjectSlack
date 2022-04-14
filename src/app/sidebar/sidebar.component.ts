@@ -28,19 +28,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.backend.getFromFirestore('channel', 'channels');
     this.backend.getFromFirestore('user', 'users');
-    this.onResize(event);
-
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.backend.screenWidth = window.innerWidth;
-    console.log(this.backend.screenWidth)
-    if (this.backend.screenWidth <= 600) {
-      this.backend.mobileMode = true;
-    } else {
-      this.backend.mobileMode = false;
-    }
   }
 
 

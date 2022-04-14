@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../backend.service';
 import { FirebaseService } from '../services/firebase.service';
 
@@ -13,6 +13,20 @@ export class ToolbarComponent implements OnInit {
 
   constructor(public backend: BackendService, public firebaseService: FirebaseService) { }
   ngOnInit(): void {
+    this.onResize(event);
+
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.backend.screenWidth = window.innerWidth;
+    console.log(this.backend.screenWidth)
+    if (window.innerWidth > 600) {
+      this.backend.mobileMode = false;
+    }
+    else if (window.innerWidth <= 600) {
+      this.backend.mobileMode = true;
+    }
   }
 
   // open and close the sidebar

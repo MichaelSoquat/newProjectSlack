@@ -63,11 +63,18 @@ export class MainInterfaceComponent implements OnInit {
     }
   }
 
+
   // open thread
 
   openThread(id) {
+    if(!this.backend.mobileMode) {
+      this.backend.threadOpened = true;
+    }
+    else {
+      this.backend.threadOpened = true;
+      this.backend.mainChatOpen = false;
+    }
     this.message_id = id;
-    this.backend.threadOpened = true;
     this.basedMessage = this.backend.data.channelMessages.filter(
       (message) => message.id == this.message_id
     )[0];
@@ -79,6 +86,9 @@ export class MainInterfaceComponent implements OnInit {
   // close thread
 
   closeThread() {
+    if(this.backend.mobileMode) {
+      this.backend.mainChatOpen=true;
+    }
     this.backend.threadOpened = false;
   }
 

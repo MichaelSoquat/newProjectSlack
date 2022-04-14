@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddChannelDialogComponent } from '../add-channel-dialog/add-channel-dialog.component';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
@@ -18,28 +18,32 @@ export class SidebarComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public firestore: AngularFirestore,
-    public backend: BackendService
-  ) { }
+    public backend: BackendService,
+    private cdref: ChangeDetectorRef
+  ) {
+  }
+
 
 
   ngOnInit(): void {
     this.backend.getFromFirestore('channel', 'channels');
     this.backend.getFromFirestore('user', 'users');
-    this.screenWidth = window.innerWidth;
+    this.onResize(event);
+
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.screenWidth = window.innerWidth;
-    console.log(this.screenWidth)
-    this.checkIfWindowTooSmall();
-  }
-
-  checkIfWindowTooSmall() {
-    if(this.screenWidth <= 860) {
-      this.backend.open = false;
+    this.backend.screenWidth = window.innerWidth;
+    console.log(this.backend.screenWidth)
+    if (this.backend.screenWidth <= 600) {
+      this.backend.mobileMode = true;
+    } else {
+      this.backend.mobileMode = false;
     }
   }
+
+
   // open DialogComponent to add a new channel
 
   openDialogChannel() {
@@ -80,8 +84,16 @@ export class SidebarComponent implements OnInit {
   // if channel gets clicked load the current channel with all data from firestore
 
   openChannel(id: string) {
-    this.backend.mainChatOpen = true;
-    this.backend.directChatOpen = false;
+    if (!this.backend.mobileMode) {
+      this.backend.mainChatOpen = true;
+      this.backend.directChatOpen = false;
+    }
+    else {
+      this.backend.directChatOpen = false;
+      this.backend.mainChatOpen = true;
+      this.backend.open = false;
+    }
+
 
     this.backend.getFromFirestore('messages', 'messages');
     console.log(id);
@@ -93,8 +105,14 @@ export class SidebarComponent implements OnInit {
   // if user for direct message gets clicked load the current chatroom with all data from firestore
 
   openDm(id: string, name: string) {
-    this.backend.mainChatOpen = false;
-    this.backend.directChatOpen = true;
+    if (!this.backend.mobileMode) {
+      this.backend.mainChatOpen = false;
+      this.backend.directChatOpen = true;
+    } else {
+      this.backend.directChatOpen = true;
+      this.backend.mainChatOpen = false;
+      this.backend.open = false;
+    }
     this.backend.data.chatHeading = name;
     // Abrufen der Messages --> ID des Empfängers wird übergeben
     this.backend.checkFirebaseContainsChatroom(id);

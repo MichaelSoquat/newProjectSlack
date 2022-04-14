@@ -1,31 +1,44 @@
 <div id="mainInterface">
     <!-- TOOLBAR -->
     <app-toolbar (buttonClicked)="isClicked($event)"></app-toolbar>
+
     <!-- SIDENAV -->
-    <mat-drawer-container  class="sidenav-container">
+    <mat-drawer-container [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="sidenav-container">
         <!-- SIDENAV-CONTENT -->
-        <mat-drawer position="start" mode="side" opened *ngIf="backend.open">
+        <mat-drawer [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="sidenav-container" position="start"
+            mode="side" opened *ngIf="backend.open">
             <app-sidebar (buttonClicked)="renderContent($event)"></app-sidebar>
         </mat-drawer>
         <!-- MAIN-CONTENT -->
 
-        <mat-drawer-content>
+        <mat-drawer-content [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="sidenav-container">
 
-            <div>
+            <div [ngClass]="backend.mobileMode ? 'mobile-mode' : ''">
 
-                <div *ngIf="backend.mainChatOpen">
-                    <app-main-chat *ngFor="let message of backend.data.channelMessages" [message]="message" (buttonClicked)="openThread($event)"></app-main-chat>
+                <div *ngIf="backend.mainChatOpen && !backend.mobileMode">
+                    <app-main-chat *ngFor="let message of backend.data.channelMessages" [message]="message"
+                        (buttonClicked)="openThread($event)"></app-main-chat>
                 </div>
-                <div *ngIf="backend.directChatOpen">
+                <div class="center-it" *ngIf="backend.mainChatOpen && backend.mobileMode">
+                    <app-main-chat *ngFor="let message of backend.data.channelMessages" [message]="message"
+                        (buttonClicked)="openThread($event)"></app-main-chat>
+                </div>
+                <div *ngIf="backend.directChatOpen && !backend.mobileMode">
+                    <app-main-chat *ngFor="let chat of backend.currentChatroom.messages" [chat]="chat"></app-main-chat>
+                </div>
+                <!-- mobile dm -->
+                <div class="center-it" *ngIf="backend.directChatOpen && backend.mobileMode">
                     <app-main-chat *ngFor="let chat of backend.currentChatroom.messages" [chat]="chat"></app-main-chat>
                 </div>
             </div>
-            <app-main-content></app-main-content>
+            <app-main-content [ngClass]="backend.mobileMode ? 'mobile-mode' : ''"></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
-        <mat-drawer class="thread-right" position="end" mode="side" opened={{backend.threadOpened}}>
+        <mat-drawer [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="thread-right" position="end" mode="side"
+            opened={{backend.threadOpened}}>
             <app-thread [message_id]="message_id" [basedMessage]="basedMessage" (buttonClicked)="closeThread()">
             </app-thread>
         </mat-drawer>
+
     </mat-drawer-container>
 </div>

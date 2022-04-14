@@ -1,6 +1,6 @@
 import { Message } from '../models/message.js';
 import { Answer } from '../models/answer.js';
-import { Injectable, Input, OnInit } from '@angular/core';
+import { Injectable, Input, OnInit, OnChanges, HostListener } from '@angular/core';
 import { AngularFirestore, fromDocRef } from '@angular/fire/compat/firestore';
 import {
   Storage,
@@ -68,18 +68,22 @@ export class BackendService implements OnInit {
   currentChatroomIndex = 0;
   currentChatroom: any = [];
   currentChatroomId = '';
-
-
+  mobileMode = false;
+  screenWidth;
   ngOnInit(): void {
 
 
   }
+
   constructor(public firestore: AngularFirestore, public storage: Storage) {
     this.getFromFirestore('user', 'users');
     this.getFromFirestore('channel', 'channels');
     this.getFromFirestore('chatroom', 'chatroom');
 
+
   }
+
+
 
   //check if chatroom is already there
 

@@ -1,6 +1,6 @@
-<div id="sidebar">
+<div id="sidebar" class="card-body" [ngClass]="backend.mobileMode ? 'mobile-mode' : ''">
 
-    <div class="card-body">
+    <div >
         <div class="card-title hstack gap-2 showTools">
             <mat-icon class="clickable" (click)="toggleChannelDropdown()" *ngIf="!openChannelDropdown">arrow_right
             </mat-icon>

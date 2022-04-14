@@ -1,0 +1,20 @@
+img{
+    height: 30px;
+    width: 30px;
+}
+
+.success-dialog{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation:fadein 1.5s;
+}
+
+@keyframes fadein {
+	from {
+		opacity:0;
+	}
+	to {
+		opacity:1;
+	}
+}

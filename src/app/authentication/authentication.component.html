@@ -25,10 +25,8 @@
                         <button mat-raised-button color="primary" class="login-button" (click)="onSignin(emailSignin.value, passwordSignin.value)">
                             Sign In
                         </button>
+                        <p class="Loginerror"></p>
 
-                        <!-- <button mat-raised-button class="login-button">
-                            Login with Google
-                        </button> -->
                     </form>
                 </mat-card-content>
             </mat-tab>
@@ -59,7 +57,6 @@
                                 Password must be of length 6
                             </mat-error>
                             <mat-icon matSuffix>lock</mat-icon>
-
                         </mat-form-field>
                         <mat-form-field>
                             <input matInput placeholder="Password" type="password" required minlength="6"
@@ -72,6 +69,7 @@
                         <a mat-raised-button color="primary" class="login-button" (click)="onSignup(emailSignup.value, passwordSignup.value, userSignup.value)">
                             Sign Up
                         </a>
+                        <p class="error"></p>
                     </form>
                 </mat-card-content>
             </mat-tab>

@@ -69,6 +69,7 @@ export class BackendService implements OnInit {
   currentChatroom: any = [];
   currentChatroomId = '';
   mobileMode = false;
+  tabletMode = false;
   screenWidth;
   ngOnInit(): void {
 

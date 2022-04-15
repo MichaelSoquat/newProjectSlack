@@ -34,7 +34,7 @@
             <app-main-content [ngClass]="backend.mobileMode ? 'mobile-mode' : ''"></app-main-content>
         </mat-drawer-content>
         <!-- THREAD-CONTENT -->
-        <mat-drawer [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="thread-right" position="end" mode="side"
+        <mat-drawer [ngClass]="backend.mobileMode ? 'mobile-mode' : backend.tabletMode ? 'tablet-mode' : ''" class="thread-right" position="end" mode="side"
             opened={{backend.threadOpened}}>
             <app-thread [message_id]="message_id" [basedMessage]="basedMessage" (buttonClicked)="closeThread()">
             </app-thread>

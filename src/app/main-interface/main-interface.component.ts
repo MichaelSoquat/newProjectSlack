@@ -15,7 +15,7 @@ export class MainInterfaceComponent implements OnInit {
 
   basedMessage = {};
 
-  
+
   value: string = '';
   messages = [];
   //? Gedanke dahinter
@@ -44,7 +44,7 @@ export class MainInterfaceComponent implements OnInit {
           if (userAlreadyThere.email == this.backend.data.users[i].email) {
             this.backend.loggedInUser = this.backend.data.users[i];
           }
-          if (this.backend.loggedInUser == this.backend.data.users[i]){
+          if (this.backend.loggedInUser == this.backend.data.users[i]) {
             clearInterval(checkCurrentUser)
           }
         }
@@ -56,7 +56,11 @@ export class MainInterfaceComponent implements OnInit {
 
   isClicked(value: any) {
     this.value = value;
-    if (this.backend.open == true) {
+    if (this.backend.mobileMode && this.backend.threadOpened) {
+      this.backend.open = true;
+      this.backend.threadOpened = false;
+    }
+    else if (this.backend.open) {
       this.backend.open = false;
     } else {
       this.backend.open = true;
@@ -67,8 +71,13 @@ export class MainInterfaceComponent implements OnInit {
   // open thread
 
   openThread(id) {
-    if(!this.backend.mobileMode) {
+    if (!this.backend.mobileMode && !this.backend.tabletMode) {
       this.backend.threadOpened = true;
+    } else if (this.backend.tabletMode) {
+      this.backend.threadOpened = true;
+      this.backend.mainChatOpen = false;
+      console.log('main chat', this.backend.mainChatOpen)
+      console.log('thread chat', this.backend.threadOpened)
     }
     else {
       this.backend.threadOpened = true;
@@ -86,8 +95,9 @@ export class MainInterfaceComponent implements OnInit {
   // close thread
 
   closeThread() {
-    if(this.backend.mobileMode) {
-      this.backend.mainChatOpen=true;
+
+    if (this.backend.mobileMode || this.backend.tabletMode) {
+      this.backend.mainChatOpen = true;
     }
     this.backend.threadOpened = false;
   }

@@ -71,8 +71,13 @@ h2 {
     margin-left: 16px;
     object-fit: cover;
 }
-.mobile-mode{
+.mobile-mode {
     display: flex !important;
     justify-content: center !important;
     
+}
+
+.tablet-mode {
+    display: flex !important;
+    justify-content: center !important;
 }

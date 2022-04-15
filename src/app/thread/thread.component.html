@@ -38,7 +38,7 @@
 
         <!-- SEND MESSAGE IN THREAD BAR -->
 
-        <div [ngClass]="backend.mobileMode ? 'mobile-mode' : ''" class="max-width" style="display: flex; margin: 1rem;">
+        <div [ngClass]="backend.mobileMode ? 'mobile-mode' : backend.tabletMode ? 'tablet-mode' : ''" class="max-width" style="display: flex; margin: 1rem;">
             <button (click)="file.click()" mat-icon-button>
                 <input (change)="backend.chooseFile($event)" type="file" accept="image/*" #file
                     style="position: fixed; top: -100em;">

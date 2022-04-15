@@ -34,9 +34,6 @@ mat-drawer-content {
 }
 
 .mobile-mode{
-    display: flex !important;
-    align-items: center !important;
-    flex-direction: column !important;
     margin-left: 0 !important;
     width: 100vw;
 }
@@ -45,6 +42,10 @@ mat-drawer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.tablet-mode {
+    width: calc(100% - 220px);
 }
 
 

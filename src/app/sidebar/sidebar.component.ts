@@ -92,6 +92,9 @@ export class SidebarComponent implements OnInit {
   // if user for direct message gets clicked load the current chatroom with all data from firestore
 
   openDm(id: string, name: string) {
+    if(this.backend.tabletMode) {
+      this.backend.threadOpened = false;
+    }
     if (!this.backend.mobileMode) {
       this.backend.mainChatOpen = false;
       this.backend.directChatOpen = true;

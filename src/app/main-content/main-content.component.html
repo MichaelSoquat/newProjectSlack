@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container" [ngClass]="backend.mobileMode ? 'mobile-mode' :''">
 
     <button (click)="file.click()" mat-icon-button>
         <input class="pseudoclass" (change)="backend.chooseFile($event)" type="file" accept="image/*" #file
